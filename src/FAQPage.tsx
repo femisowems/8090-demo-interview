@@ -7,6 +7,7 @@ import { TerminalMock } from './components/faq/TerminalMock';
 import { IntroductionPage } from './components/faq/IntroductionPage';
 import { RequirementsGuidePage } from './components/faq/RequirementsGuidePage';
 import { BlueprintGuidePage } from './components/faq/BlueprintGuidePage';
+import { WorkOrderGuidePage } from './components/faq/WorkOrderGuidePage';
 import { ComingSoonPage } from './components/faq/ComingSoonPage';
 import { DocsHomePage } from './components/faq/DocsHomePage';
 import { PageNavigation } from './components/faq/PageNavigation';
@@ -27,7 +28,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 
-const CONTENT_PAGES = ['home', 'intro', 'quickstart', 'requirements-guide', 'blueprint-guide'];
+const CONTENT_PAGES = ['home', 'intro', 'quickstart', 'requirements-guide', 'blueprint-guide', 'work-order-guide'];
 
 export const FAQPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -146,6 +147,20 @@ export const FAQPage = () => {
         { id: 'bg-feature-guidance', text: 'Feature Blueprint Guidance', level: 2 },
         { id: 'bg-principles', text: 'Blueprint Principles', level: 2 },
         { id: 'bg-checklist', text: 'Authoring Checklist', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'work-order-guide') {
+      return [
+        { id: 'wo-header', text: 'Work Order Writing Guide', level: 2 },
+        { id: 'wo-what-are-work-orders', text: 'What Are Work Orders?', level: 2 },
+        { id: 'wo-writing-descriptions', text: 'Writing Work Order Descriptions', level: 2 },
+        { id: 'wo-summary', text: 'Summary', level: 3 },
+        { id: 'wo-in-scope', text: 'In Scope', level: 3 },
+        { id: 'wo-out-of-scope', text: 'Out of Scope', level: 3 },
+        { id: 'wo-requirements', text: 'Requirements', level: 3 },
+        { id: 'wo-blueprints', text: 'Blueprints', level: 3 },
+        { id: 'wo-e2e-acceptance-tests', text: 'E2E Acceptance Tests', level: 3 },
       ] as TOCHeading[];
     }
 
@@ -277,7 +292,7 @@ export const FAQPage = () => {
         style={{ backdropFilter: useTransform(headerBlur, (v) => `blur(${v}px)`), paddingTop: headerPadding, paddingBottom: headerPadding, borderBottomColor: useTransform(navBorderOpacity, (v) => `hsl(var(--primary) / ${v})`) }}
         className="sticky top-0 z-50 border-b px-6 transition-all"
       >
-        <div className="max-w-[1400px] mx-auto flex items-center justify-between">
+        <div className="max-w-350 mx-auto flex items-center justify-between">
           <div className="flex items-center gap-8">
             <motion.div style={{ scale: logoScale }} className="flex items-center gap-2.5 font-bold text-lg tracking-tight group cursor-pointer origin-left">
               <div className="relative">
@@ -307,7 +322,7 @@ export const FAQPage = () => {
             <button onClick={() => setCommandPaletteOpen(true)} className="flex items-center gap-3 px-4 py-1.5 rounded-lg bg-muted/50 border border-border/50 text-muted-foreground text-xs transition-colors group text-nowrap"><Search className="h-3.5 w-3.5" /> <span>Search...</span> <div className="flex items-center gap-1 px-1 py-0.5 rounded bg-background border border-border text-[9px] font-bold opacity-60"><Command className="h-2 w-2" /> K</div></button>
           </div>
         </div>
-        <motion.div className="absolute bottom-0 left-0 right-0 h-[1px] bg-primary origin-left" style={{ scaleX }} />
+        <motion.div className="absolute bottom-0 left-0 right-0 h-px bg-primary origin-left" style={{ scaleX }} />
       </motion.nav>
 
       <main className="relative max-w-7xl mx-auto px-6 pt-20 pb-32">
@@ -378,6 +393,7 @@ export const FAQPage = () => {
                 {activeCategory === 'quickstart' && renderQuickstartContent()}
                 {activeCategory === 'requirements-guide' && <><RequirementsGuidePage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
                 {activeCategory === 'blueprint-guide' && <><BlueprintGuidePage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'work-order-guide' && <><WorkOrderGuidePage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
                 {!CONTENT_PAGES.includes(activeCategory) && (
                   <ComingSoonPage categoryId={activeCategory} onNavigate={setActiveCategory} />
                 )}
