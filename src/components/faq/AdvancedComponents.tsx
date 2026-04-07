@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, X, ArrowRight, UserPlus, Zap } from 'lucide-react';
+import { Check, X, ArrowRight, Zap } from 'lucide-react';
 
 interface FeatureRow {
   name: string;

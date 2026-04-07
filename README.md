@@ -1,73 +1,108 @@
-# React + TypeScript + Vite
+# 8090.ai — Software Factory Documentation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, interactive documentation platform for [8090.ai Software Factory](https://8090.ai) — an AI-native SDLC orchestration platform where PMs, designers, engineers, and QA collaborate to ship high-quality software.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+- **Docs Home** — Supabase-style landing page with categorized navigation to every module
+- **Introduction** — Full product overview with problem/solution narrative and core module breakdown
+- **Quickstart Guide** — 8-step interactive walkthrough with embedded CLI terminal simulations
+- **Requirements Writing Guide** — Structured guide for PRDs, FRDs, user stories, and acceptance criteria
+- **Blueprint Writing Guide** — Technical spec authoring with component/model syntax, mention tables, and ADRs
+- **⌘K Command Palette** — Fuzzy search across all pages with keyboard navigation
+- **Dark Mode** — Toggle with localStorage persistence
+- **AI Tools Sidebar** — Copy page summary as markdown, one-click open ChatGPT / Claude / Gemini
+- **Scroll-Spy TOC** — Right sidebar with active section highlighting via IntersectionObserver
+- **Previous / Next Navigation** — Sequential doc browsing at the bottom of every page
+- **Coming Soon Placeholders** — Polished empty states for unbuilt documentation sections
+- **Responsive Footer** — Categorized doc links with branding
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 Tech Stack
 
-## Expanding the ESLint configuration
+| Layer | Technology |
+|-------|-----------|
+| Framework | [React 19](https://react.dev) + [TypeScript 6](https://typescriptlang.org) |
+| Build Tool | [Vite 8](https://vite.dev) |
+| Styling | [Tailwind CSS v4](https://tailwindcss.com) (alpha) |
+| Animations | [Framer Motion 12](https://motion.dev) |
+| Icons | [Lucide React](https://lucide.dev) |
+| Utilities | [clsx](https://github.com/lukeed/clsx), [tailwind-merge](https://github.com/dcastil/tailwind-merge) |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📁 Project Structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── FAQPage.tsx              # Main page orchestrator (routing, state, layout)
+├── data/
+│   └── faq.ts               # Navigation structure, FAQ data, content definitions
+├── components/faq/
+│   ├── DocsHomePage.tsx      # Supabase-style docs landing page
+│   ├── IntroductionPage.tsx  # Product introduction with agent workflow
+│   ├── RequirementsGuidePage.tsx  # Requirements writing guide
+│   ├── BlueprintGuidePage.tsx    # Blueprint writing specification
+│   ├── ComingSoonPage.tsx    # Placeholder for unbuilt pages
+│   ├── PageNavigation.tsx    # Previous / Next page navigation
+│   ├── CommandPalette.tsx    # ⌘K command palette with fuzzy search
+│   ├── AITools.tsx           # AI tools sidebar (copy, ChatGPT, Claude, Gemini)
+│   ├── TableOfContents.tsx   # Scroll-spy table of contents
+│   ├── SearchBar.tsx         # Search input with AI instant answer
+│   ├── AccordionItem.tsx     # FAQ accordion component
+│   ├── TerminalMock.tsx      # Interactive CLI simulation
+│   ├── AgentWorkflow.tsx     # Agent workflow visualization
+│   ├── NextSteps.tsx         # Navigation cards to related pages
+│   └── Footer.tsx            # Site footer with doc links
+├── index.css                 # Design tokens, dark mode, glassmorphism
+└── main.tsx                  # App entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🚀 Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js 18+
+- npm, yarn, or pnpm
+
+### Install & Run
+
+```bash
+# Clone the repository
+git clone https://github.com/femisowemimo/8090-demo-interview.git
+cd 8090-demo-interview
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Build for Production
+
+```bash
+npm run build
+npm run preview
+```
+
+## ⌨️ Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `⌘K` / `Ctrl+K` | Open command palette |
+| `↑` `↓` | Navigate command palette results |
+| `Enter` | Select command |
+| `Escape` | Close command palette |
+
+## 🎨 Design System
+
+- **Light / Dark mode** with HSL CSS custom properties
+- **Glassmorphism** via `backdrop-filter: blur()` on the sticky header
+- **Micro-animations** with Framer Motion (fade-up, spring indicators, scale transitions)
+- **Typography** — Inter font family via Google Fonts
+
+## 📄 License
+
+Private — © 2026 8090.ai. All rights reserved.
