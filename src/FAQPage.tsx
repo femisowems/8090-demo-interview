@@ -8,6 +8,17 @@ import { IntroductionPage } from './components/faq/IntroductionPage';
 import { RequirementsGuidePage } from './components/faq/RequirementsGuidePage';
 import { BlueprintGuidePage } from './components/faq/BlueprintGuidePage';
 import { WorkOrderGuidePage } from './components/faq/WorkOrderGuidePage';
+import { CodebaseConnectionPage } from './components/faq/CodebaseConnectionPage';
+import { ArtifactsPage } from './components/faq/ArtifactsPage';
+import { RefineryPage } from './components/faq/RefineryPage';
+import { FoundryPage } from './components/faq/FoundryPage';
+import { PlannerPage } from './components/faq/PlannerPage';
+import { OrganizationManagementPage } from './components/faq/OrganizationManagementPage';
+import { UsageBillingPage } from './components/faq/UsageBillingPage';
+import { ChangelogPage } from './components/faq/ChangelogPage';
+import { RoadmapPage } from './components/faq/RoadmapPage';
+import { SupportCommunityPage } from './components/faq/SupportCommunityPage';
+import { ValidatorPage } from './components/faq/ValidatorPage';
 import { ComingSoonPage } from './components/faq/ComingSoonPage';
 import { DocsHomePage } from './components/faq/DocsHomePage';
 import { PageNavigation } from './components/faq/PageNavigation';
@@ -28,7 +39,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 
-const CONTENT_PAGES = ['home', 'intro', 'quickstart', 'requirements-guide', 'blueprint-guide', 'work-order-guide'];
+const CONTENT_PAGES = ['home', 'intro', 'quickstart', 'requirements-guide', 'blueprint-guide', 'work-order-guide', 'codebase-connection', 'artifacts', 'refinery', 'foundry', 'planner', 'validator', 'organization-mgmt', 'usage-billing', 'changelog', 'roadmap', 'community'];
 
 export const FAQPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -161,6 +172,176 @@ export const FAQPage = () => {
         { id: 'wo-requirements', text: 'Requirements', level: 3 },
         { id: 'wo-blueprints', text: 'Blueprints', level: 3 },
         { id: 'wo-e2e-acceptance-tests', text: 'E2E Acceptance Tests', level: 3 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'codebase-connection') {
+      return [
+        { id: 'cc-header', text: 'Connecting a Codebase', level: 2 },
+        { id: 'cc-why-connect', text: 'Why Connect a Codebase?', level: 2 },
+        { id: 'cc-github-app-installation', text: 'GitHub App Installation', level: 2 },
+        { id: 'cc-provide-repository-url', text: 'Provide the Repository URL', level: 2 },
+        { id: 'cc-indexing', text: 'Codebase Indexing', level: 2 },
+        { id: 'cc-automatic-reindexing', text: 'Automatic Reindexing', level: 2 },
+        { id: 'cc-removing-connection', text: 'Removing a Codebase Connection', level: 2 },
+        { id: 'cc-best-practice', text: 'Best Practice', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'artifacts') {
+      return [
+        { id: 'art-header', text: 'Artifacts', level: 2 },
+        { id: 'art-overview', text: 'Overview', level: 2 },
+        { id: 'art-supported-files', text: 'Supported Files', level: 2 },
+        { id: 'art-uploading', text: 'Uploading Artifacts', level: 2 },
+        { id: 'art-agent-context', text: 'Adding Artifacts to Agent Context', level: 2 },
+        { id: 'art-citing', text: 'Citing Artifacts in Documentation', level: 2 },
+        { id: 'art-best-practices', text: 'Best Practices', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'refinery') {
+      return [
+        { id: 'ref-header', text: 'Refinery', level: 2 },
+        { id: 'ref-why-requirements', text: 'Why Requirements?', level: 2 },
+        { id: 'ref-getting-started', text: 'Getting Started', level: 2 },
+        { id: 'ref-step-1', text: 'Step 1: Initialize Requirements', level: 3 },
+        { id: 'ref-step-2', text: 'Step 2: Define Product Context', level: 3 },
+        { id: 'ref-step-3', text: 'Step 3: Create Feature Requirements', level: 3 },
+        { id: 'ref-collaboration-versioning', text: 'Collaboration and Versioning', level: 2 },
+        { id: 'ref-agent', text: 'Refinery Agent', level: 2 },
+        { id: 'ref-agent-drafting', text: 'Drafting and Initialization', level: 3 },
+        { id: 'ref-agent-review', text: 'Review and Quality Checks', level: 3 },
+        { id: 'ref-agent-qa', text: 'Question Answering', level: 3 },
+        { id: 'ref-agent-feature-org', text: 'Feature Organization', level: 3 },
+        { id: 'ref-agent-alignment', text: 'Alignment with Foundry', level: 3 },
+        { id: 'ref-import-export', text: 'Import and Export', level: 2 },
+        { id: 'ref-individual-documents', text: 'Individual Documents', level: 3 },
+        { id: 'ref-aggregate-export', text: 'Aggregate Export', level: 3 },
+        { id: 'ref-best-practices', text: 'Best Practices', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'foundry') {
+      return [
+        { id: 'fnd-header', text: 'Foundry', level: 2 },
+        { id: 'fnd-what-are-blueprints', text: 'What Are Blueprints?', level: 2 },
+        { id: 'fnd-blueprint-types', text: 'Blueprint Types', level: 2 },
+        { id: 'fnd-foundations', text: 'Foundations', level: 3 },
+        { id: 'fnd-system-diagrams', text: 'System Diagrams', level: 3 },
+        { id: 'fnd-feature-blueprints', text: 'Feature Blueprints', level: 3 },
+        { id: 'fnd-getting-started', text: 'Getting Started', level: 2 },
+        { id: 'fnd-step-1', text: 'Step 1: Configure your Foundry template', level: 3 },
+        { id: 'fnd-step-2', text: 'Step 2: Fill in Foundation Blueprints', level: 3 },
+        { id: 'fnd-step-3', text: 'Step 3: Fill in a Feature Blueprint', level: 3 },
+        { id: 'fnd-agent-capabilities', text: 'Foundry Agent Capabilities', level: 2 },
+        { id: 'fnd-edit-suggestions', text: 'Edit Suggestions', level: 3 },
+        { id: 'fnd-context-awareness', text: 'Context Awareness', level: 3 },
+        { id: 'fnd-skills-workflows', text: 'Skills and Workflows', level: 3 },
+        { id: 'fnd-sync', text: 'Synchronizing Blueprints with Code and Requirements', level: 2 },
+        { id: 'fnd-alerts-resolution', text: 'Alerts and Resolution', level: 2 },
+        { id: 'fnd-best-practices', text: 'Best Practices', level: 2 },
+        { id: 'fnd-troubleshooting', text: 'Troubleshooting', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'planner') {
+      return [
+        { id: 'pl-header', text: 'Planner', level: 2 },
+        { id: 'pl-what-are-work-orders', text: 'What Are Work Orders?', level: 2 },
+        { id: 'pl-getting-started', text: 'Getting Started', level: 2 },
+        { id: 'pl-step-1', text: 'Step 1: Configure Planner', level: 3 },
+        { id: 'pl-step-2', text: 'Step 2: Create work orders', level: 3 },
+        { id: 'pl-step-3', text: 'Step 3: Manage phases and sequence', level: 3 },
+        { id: 'pl-step-3-1', text: 'Assign to phases', level: 3 },
+        { id: 'pl-step-3-2', text: 'Drag and drop sequencing', level: 3 },
+        { id: 'pl-step-3-3', text: 'Filters and search', level: 3 },
+        { id: 'pl-mcp', text: 'MCP Connections', level: 2 },
+        { id: 'pl-mcp-enables', text: 'What MCP Enables', level: 3 },
+        { id: 'pl-mcp-connect', text: 'Connecting environment', level: 3 },
+        { id: 'pl-mcp-working', text: 'Working via MCP', level: 3 },
+        { id: 'pl-agent-capabilities', text: 'Planner Agent Capabilities', level: 2 },
+        { id: 'pl-agent-edit-bulk', text: 'Edit and bulk changes', level: 3 },
+        { id: 'pl-agent-refine-plans', text: 'Refine implementation plans', level: 3 },
+        { id: 'pl-agent-context', text: 'Agent context', level: 3 },
+        { id: 'pl-sync', text: 'Synchronizing Work Orders', level: 2 },
+        { id: 'pl-sync-blueprints', text: 'Aligned with blueprints', level: 3 },
+        { id: 'pl-best-practices', text: 'Best Practices', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'organization-mgmt') {
+      return [
+        { id: 'org-header', text: 'Organization Management', level: 2 },
+        { id: 'org-creating', text: 'Creating an Organization', level: 2 },
+        { id: 'org-console', text: 'Accessing the Organization Console', level: 2 },
+        { id: 'org-seat-management', text: 'Seat Management', level: 2 },
+        { id: 'org-members-roles', text: 'Members and Roles', level: 2 },
+        { id: 'org-member-role', text: 'Member Role', level: 3 },
+        { id: 'org-admin-role', text: 'Administrator Role', level: 3 },
+        { id: 'org-projects', text: 'Managing Projects Across the Organization', level: 2 },
+        { id: 'org-shared-templates', text: 'Shared Templates', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'usage-billing') {
+      return [
+        { id: 'ub-header', text: 'Usage and Billing', level: 2 },
+        { id: 'ub-usage', text: 'Usage', level: 2 },
+        { id: 'ub-seats-billing', text: 'Managing Seats and Billing', level: 2 },
+        { id: 'ub-model-pricing', text: 'Model Pricing', level: 2 },
+        { id: 'ub-pricing-references', text: 'Pricing References', level: 3 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'changelog') {
+      return [
+        { id: 'cl-header', text: 'Changelog', level: 2 },
+        { id: 'cl-0310', text: 'Version 0.31.0', level: 2 },
+        { id: 'cl-0300', text: 'Version 0.30.0', level: 2 },
+        { id: 'cl-0290', text: 'Version 0.29.0', level: 2 },
+        { id: 'cl-0280', text: 'Version 0.28.0', level: 2 },
+        { id: 'cl-0270', text: 'Version 0.27.0', level: 2 },
+        { id: 'cl-0260', text: 'Version 0.26.0', level: 2 },
+        { id: 'cl-0250', text: 'Version 0.25.0', level: 2 },
+        { id: 'cl-0240', text: 'Version 0.24.0', level: 2 },
+        { id: 'cl-0230', text: 'Version 0.23.0', level: 2 },
+        { id: 'cl-0210', text: 'Version 0.21.0', level: 2 },
+        { id: 'cl-0200', text: 'Version 0.20.0', level: 2 },
+        { id: 'cl-0190', text: 'Version 0.19.0', level: 2 },
+        { id: 'cl-0180', text: 'Version 0.18.0', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'roadmap') {
+      return [
+        { id: 'rm-header', text: 'Roadmap', level: 2 },
+        { id: 'rm-view', text: 'Product Roadmap', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'community') {
+      return [
+        { id: 'sc-header', text: 'Support & Community', level: 2 },
+        { id: 'sc-channels', text: 'Community Channels', level: 2 },
+        { id: 'sc-contact', text: 'Contact Information', level: 2 },
+      ] as TOCHeading[];
+    }
+
+    if (activeCategory === 'validator') {
+      return [
+        { id: 'val-header', text: 'Validator', level: 2 },
+        { id: 'val-what-does', text: 'What Validator Does', level: 2 },
+        { id: 'val-walkthrough', text: 'Watch the Walkthrough', level: 2 },
+        { id: 'val-how-it-works', text: 'How It Works', level: 2 },
+        { id: 'val-input', text: 'Input', level: 3 },
+        { id: 'val-process', text: 'Process', level: 3 },
+        { id: 'val-output', text: 'Output', level: 3 },
+        { id: 'val-example', text: 'Quick Example', level: 2 },
+        { id: 'val-features', text: 'Features', level: 2 },
+        { id: 'val-troubleshooting', text: 'Troubleshooting', level: 2 },
+        { id: 'val-best-practices', text: 'Best Practices', level: 2 },
+        { id: 'val-glossary', text: 'Glossary', level: 2 },
       ] as TOCHeading[];
     }
 
@@ -394,6 +575,17 @@ export const FAQPage = () => {
                 {activeCategory === 'requirements-guide' && <><RequirementsGuidePage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
                 {activeCategory === 'blueprint-guide' && <><BlueprintGuidePage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
                 {activeCategory === 'work-order-guide' && <><WorkOrderGuidePage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'codebase-connection' && <><CodebaseConnectionPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'artifacts' && <><ArtifactsPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'refinery' && <><RefineryPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'foundry' && <><FoundryPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'planner' && <><PlannerPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'organization-mgmt' && <><OrganizationManagementPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'usage-billing' && <><UsageBillingPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'changelog' && <><ChangelogPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'roadmap' && <><RoadmapPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'community' && <><SupportCommunityPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
+                {activeCategory === 'validator' && <><ValidatorPage /><PageNavigation currentId={activeCategory} onNavigate={setActiveCategory} /></>}
                 {!CONTENT_PAGES.includes(activeCategory) && (
                   <ComingSoonPage categoryId={activeCategory} onNavigate={setActiveCategory} />
                 )}
