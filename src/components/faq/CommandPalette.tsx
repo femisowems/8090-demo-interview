@@ -130,8 +130,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]"
+        className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]"
         onClick={onClose}
+        role="presentation"
       >
         {/* Backdrop */}
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
@@ -143,31 +144,36 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           exit={{ opacity: 0, scale: 0.95, y: -10 }}
           onClick={e => e.stopPropagation()}
           className="relative w-full max-w-lg bg-background border border-border rounded-2xl shadow-2xl overflow-hidden"
+          role="combobox"
+          aria-expanded={isOpen}
+          aria-owns="command-palette-results"
         >
           {/* Search input */}
           <div className="flex items-center gap-3 px-5 border-b border-border">
-            <Search className="h-4 w-4 text-muted-foreground shrink-0" />
+            <Search className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden="true" />
             <input
               ref={inputRef}
               value={query}
               onChange={e => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Type a command or search..."
-              className="flex-1 py-4 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
+              className="flex-1 py-4 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 focus:ring-0"
+              aria-label="Command palette search input"
+              autoComplete="off"
             />
-            <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-[10px] font-bold text-muted-foreground">ESC</kbd>
+            <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-[10px] font-bold text-muted-foreground" aria-label="Press Escape to close">ESC</kbd>
           </div>
 
           {/* Results */}
-          <div className="max-h-[360px] overflow-y-auto py-2">
+          <div className="max-h-96 overflow-y-auto py-2" id="command-palette-results" role="listbox">
             {Object.entries(grouped).length === 0 ? (
               <div className="px-5 py-8 text-center text-sm text-muted-foreground">
                 No results for "{query}"
               </div>
             ) : (
               Object.entries(grouped).map(([category, items]) => (
-                <div key={category}>
-                  <p className="px-5 pt-3 pb-1 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{category}</p>
+                <div key={category} role="group" aria-labelledby={`group-${category}`}>
+                  <p className="px-5 pt-3 pb-1 text-[10px] font-bold text-muted-foreground uppercase tracking-widest" id={`group-${category}`}>{category}</p>
                   {items.map((item) => {
                     const globalIndex = filtered.indexOf(item);
                     const Icon = item.icon;
@@ -176,19 +182,21 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                         key={item.id}
                         onClick={item.action}
                         onMouseEnter={() => setSelectedIndex(globalIndex)}
-                        className={`flex w-full items-center gap-3 px-5 py-2.5 text-sm transition-colors ${
+                        className={`flex w-full items-center gap-3 px-5 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-inset ${
                           globalIndex === selectedIndex
                             ? 'bg-primary/10 text-foreground'
                             : 'text-muted-foreground hover:text-foreground'
                         }`}
+                        role="option"
+                        aria-selected={globalIndex === selectedIndex}
                       >
-                        <Icon className="h-4 w-4 shrink-0" />
+                        <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                         <span className="flex-1 text-left">{item.label}</span>
                         {item.description && (
                           <span className="text-xs text-muted-foreground/60">{item.description}</span>
                         )}
                         {globalIndex === selectedIndex && (
-                          <CornerDownLeft className="h-3 w-3 text-primary" />
+                          <CornerDownLeft className="h-3 w-3 text-primary" aria-hidden="true" />
                         )}
                       </button>
                     );

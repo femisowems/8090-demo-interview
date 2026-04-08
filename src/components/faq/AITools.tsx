@@ -4,6 +4,7 @@ import { Copy, Check, ExternalLink, ThumbsUp, ThumbsDown, Sparkles } from 'lucid
 
 interface AIToolsProps {
   activeCategory: string;
+  onCopySuccess?: () => void;
 }
 
 const PAGE_SUMMARIES: Record<string, string> = {
@@ -110,7 +111,7 @@ const AI_TARGETS = [
   },
 ];
 
-export const AITools: React.FC<AIToolsProps> = ({ activeCategory }) => {
+export const AITools: React.FC<AIToolsProps> = ({ activeCategory, onCopySuccess }) => {
   const [copied, setCopied] = useState(false);
   const [copiedForAI, setCopiedForAI] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<'up' | 'down' | null>(null);
@@ -124,6 +125,7 @@ export const AITools: React.FC<AIToolsProps> = ({ activeCategory }) => {
     try {
       await navigator.clipboard.writeText(md);
       setCopied(true);
+      onCopySuccess?.();
       setTimeout(() => setCopied(false), 2000);
     } catch {
       const ta = document.createElement('textarea');
@@ -133,9 +135,10 @@ export const AITools: React.FC<AIToolsProps> = ({ activeCategory }) => {
       document.execCommand('copy');
       document.body.removeChild(ta);
       setCopied(true);
+      onCopySuccess?.();
       setTimeout(() => setCopied(false), 2000);
     }
-  }, [getMarkdown]);
+  }, [getMarkdown, onCopySuccess]);
 
   const handleAskAI = useCallback(async (id: string, url: string) => {
     const md = getMarkdown();

@@ -3,6 +3,10 @@ import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'fra
 import { SearchBar } from './components/faq/SearchBar';
 import { AccordionItem } from './components/faq/AccordionItem';
 import { DOCS_NAV, FAQ_DATA, QUICKSTART_CONTENT } from './data/faq';
+import { useTheme } from './hooks/useTheme';
+import { useKeyboardShortcut } from './hooks/useKeyboardShortcut';
+import { Toast } from './components/Toast';
+import { BackToTop } from './components/BackToTop';
 import { TerminalMock } from './components/faq/TerminalMock';
 import { IntroductionPage } from './components/faq/IntroductionPage';
 import { RequirementsGuidePage } from './components/faq/RequirementsGuidePage';
@@ -47,37 +51,20 @@ export const FAQPage = () => {
   const [openId, setOpenId] = useState<string | null>(null);
   const [aiTyping, setAiTyping] = useState(false);
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null);
-  const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [tocMobileOpen, setTocMobileOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const { isDarkMode, toggleDarkMode } = useTheme();
 
-  // Dark mode toggle
-  const toggleDarkMode = useCallback(() => {
-    const next = !isDarkMode;
-    setIsDarkMode(next);
-    document.documentElement.classList.toggle('dark', next);
-    localStorage.setItem('theme', next ? 'dark' : 'light');
-  }, [isDarkMode]);
-
-  // Init dark mode from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
-      setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
-    }
-  }, []);
-
-  // ⌘K listener
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setCommandPaletteOpen(prev => !prev);
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, []);
+  // ⌘K listener - properly cleaned up with useCallback to prevent memory leaks
+  useKeyboardShortcut(
+    useCallback(() => {
+      setCommandPaletteOpen(prev => !prev);
+    }, []),
+    'k'
+  );
 
   // Scroll Transforms
   const { scrollY, scrollYProgress } = useScroll();
@@ -89,6 +76,22 @@ export const FAQPage = () => {
   const logoScale = useTransform(scrollY, [0, 80], [1, 0.92]);
   const subTitleOpacity = useTransform(scrollY, [0, 60], [1, 0]);
   const navBorderOpacity = useTransform(scrollY, [0, 80], [0.05, 0.15]);
+
+  // Show back-to-top button when scrolled down
+  useEffect(() => {
+    const unsubscribe = scrollY.on("change", (v: number) => {
+      setShowBackToTop(v > 300);
+    });
+    return unsubscribe;
+  }, [scrollY]);
+
+  // Scroll to top smoothly
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
 
   // Filter logic
   const filteredFAQs = useMemo(() => {
@@ -310,6 +313,22 @@ export const FAQPage = () => {
         { id: 'cl-0200', text: 'Version 0.20.0', level: 2 },
         { id: 'cl-0190', text: 'Version 0.19.0', level: 2 },
         { id: 'cl-0180', text: 'Version 0.18.0', level: 2 },
+        { id: 'cl-0170', text: 'Version 0.17.0', level: 2 },
+        { id: 'cl-0160', text: 'Version 0.16.0', level: 2 },
+        { id: 'cl-0150', text: 'Version 0.15.0', level: 2 },
+        { id: 'cl-0140', text: 'Version 0.14.0', level: 2 },
+        { id: 'cl-0130', text: 'Version 0.13.0', level: 2 },
+        { id: 'cl-0120', text: 'Version 0.12.0', level: 2 },
+        { id: 'cl-0100', text: 'Version 0.10.0', level: 2 },
+        { id: 'cl-0090', text: 'Version 0.9.0', level: 2 },
+        { id: 'cl-0080', text: 'Version 0.8.0', level: 2 },
+        { id: 'cl-0071', text: 'Version 0.7.1', level: 2 },
+        { id: 'cl-0060', text: 'Version 0.6.0', level: 2 },
+        { id: 'cl-0050', text: 'Version 0.5.0', level: 2 },
+        { id: 'cl-0040', text: 'Version 0.4.0', level: 2 },
+        { id: 'cl-0030', text: 'Version 0.3.0', level: 2 },
+        { id: 'cl-0020', text: 'Version 0.2.0', level: 2 },
+        { id: 'cl-0010', text: 'Version 0.1.0', level: 2 },
       ] as TOCHeading[];
     }
 
@@ -469,6 +488,11 @@ export const FAQPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
+      {/* Skip to content link for accessibility */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-3 focus:bg-primary focus:text-primary-foreground">
+        Skip to main content
+      </a>
+
       <motion.nav 
         style={{ backdropFilter: useTransform(headerBlur, (v) => `blur(${v}px)`), paddingTop: headerPadding, paddingBottom: headerPadding, borderBottomColor: useTransform(navBorderOpacity, (v) => `hsl(var(--primary) / ${v})`) }}
         className="sticky top-0 z-50 border-b px-6 transition-all"
@@ -497,17 +521,37 @@ export const FAQPage = () => {
             <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/5 border border-green-500/10 text-[11px] font-bold text-green-500/80">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" /> OPERATIONAL <span className="mx-1 text-muted-foreground/30">•</span> v2.4.1
             </div>
-            <button onClick={toggleDarkMode} className="p-2 rounded-lg hover:bg-muted/50 text-muted-foreground hover:text-foreground transition-colors" aria-label="Toggle dark mode">
+            <button 
+              onClick={() => setSidebarOpen(!sidebarOpen)} 
+              className="lg:hidden p-2 rounded-lg hover:bg-muted/50 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
+              aria-label="Toggle sidebar"
+              aria-expanded={sidebarOpen}
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <button 
+              onClick={toggleDarkMode} 
+              className="p-2 rounded-lg hover:bg-muted/50 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 dark:focus:ring-offset-background"
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
-            <button onClick={() => setCommandPaletteOpen(true)} className="flex items-center gap-3 px-4 py-1.5 rounded-lg bg-muted/50 border border-border/50 text-muted-foreground text-xs transition-colors group text-nowrap"><Search className="h-3.5 w-3.5" /> <span>Search...</span> <div className="flex items-center gap-1 px-1 py-0.5 rounded bg-background border border-border text-[9px] font-bold opacity-60"><Command className="h-2 w-2" /> K</div></button>
+            <button 
+              onClick={() => setCommandPaletteOpen(true)} 
+              className="flex items-center gap-3 px-4 py-1.5 rounded-lg bg-muted/50 border border-border/50 text-muted-foreground text-xs transition-colors group text-nowrap focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 dark:focus:ring-offset-background"
+              aria-label="Search documentation (Cmd+K)"
+            >
+              <Search className="h-3.5 w-3.5" /> <span>Search...</span> <div className="flex items-center gap-1 px-1 py-0.5 rounded bg-background border border-border text-[9px] font-bold opacity-60"><Command className="h-2 w-2" /> K</div>
+            </button>
           </div>
         </div>
         <motion.div className="absolute bottom-0 left-0 right-0 h-px bg-primary origin-left" style={{ scaleX }} />
       </motion.nav>
 
       <main className="relative max-w-7xl mx-auto px-6 pt-20 pb-32">
-        <div className="relative mb-20">
+        <div id="main-content" className="relative mb-20">
           <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Ask anything... e.g. 'how do I connect AWS?'" />
           <AnimatePresence>
             {searchQuery.length > 3 && (
@@ -524,8 +568,21 @@ export const FAQPage = () => {
           </AnimatePresence>
         </div>
 
-        <div className="grid lg:grid-cols-[240px_1fr] xl:grid-cols-[240px_1fr_200px] gap-8 mt-12">
-          <aside className="space-y-12">
+        <div className="grid lg:grid-cols-[240px_1fr] xl:grid-cols-[240px_1fr_200px] gap-8 mt-12 relative">
+          {/* Mobile sidebar backdrop */}
+          {sidebarOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onClick={() => setSidebarOpen(false)}
+              className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+            />
+          )}
+
+          {/* Sidebar */}
+          <aside className={`fixed left-0 top-0 bottom-0 w-64 lg:static lg:w-auto z-30 lg:z-auto transition-transform bg-background lg:bg-transparent border-r lg:border-0 ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          }`}>
             <div className="sticky top-32 space-y-12">
               <nav className="space-y-8">
                 {/* Docs Home link */}
@@ -595,10 +652,42 @@ export const FAQPage = () => {
 
           <aside className="hidden xl:block">
             <div className="sticky top-32 space-y-10">
-              <AITools activeCategory={activeCategory} />
+              <AITools activeCategory={activeCategory} onCopySuccess={() => setShowToast(true)} />
               <TableOfContents headings={tocHeadings} activeId={activeHeadingId} />
             </div>
           </aside>
+
+          {/* Mobile TOC toggle button */}
+          {tocHeadings.length > 0 && (
+            <button
+              onClick={() => setTocMobileOpen(!tocMobileOpen)}
+              className="fixed bottom-8 right-8 lg:hidden z-20 p-3 rounded-full bg-primary text-primary-foreground shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+              aria-label={tocMobileOpen ? 'Close table of contents' : 'Open table of contents'}
+            >
+              <svg className={`h-5 w-5 transition-transform ${tocMobileOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          )}
+
+          {/* Mobile TOC drawer */}
+          {tocMobileOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="fixed bottom-0 left-0 right-0 max-h-96 bg-background rounded-t-2xl border-t border-border z-20 lg:hidden shadow-lg overflow-y-auto"
+            >
+              <div className="p-4">
+                <TableOfContents headings={tocHeadings} activeId={activeHeadingId} />
+                <button
+                  onClick={() => setTocMobileOpen(false)}
+                  className="mt-4 w-full py-2 px-3 rounded-lg bg-muted/20 hover:bg-muted/40 transition-colors text-sm font-medium"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          )}
         </div>
       </main>
 
@@ -615,6 +704,12 @@ export const FAQPage = () => {
         }}
         isDarkMode={isDarkMode}
       />
+
+      {/* Toast notification */}
+      <Toast show={showToast} message="Copied to clipboard!" />
+
+      {/* Back to top button */}
+      <BackToTop isVisible={showBackToTop} onClick={scrollToTop} />
     </div>
   );
 };

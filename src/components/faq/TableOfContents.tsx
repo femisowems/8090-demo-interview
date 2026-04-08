@@ -47,10 +47,10 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ headings, acti
               >
                 <button
                   onClick={() => scrollToSection(h.id)}
-                  className={`relative text-left text-sm transition-colors hover:text-foreground ${
+                  className={`relative text-left text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 dark:focus:ring-offset-background rounded px-1 ${
                     activeId === h.id 
                       ? 'text-foreground font-semibold' 
-                      : 'text-muted-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {activeId === h.id && (

@@ -254,5 +254,287 @@ export const ChangelogPage: React.FC = () => (
         ]}
       />
     </Release>
+
+    <Release id="cl-0170" version="0.17.0" date="December 17, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Blueprint Version History: Blueprints now maintain a full version history with a red and green diff view.',
+          'Configurable Work Order Extraction: Customize Work Order creation using separate templates for sizing, titles, and descriptions.',
+          'Rich Text in Planner: Planners and Work Orders now support rich text with mentions and inline images.',
+          'Agent Management Tools: Agents can rename, move, and delete features or Blueprints through conversation.',
+        ]}
+      />
+      <SectionList
+        title="Minor Updates"
+        items={[
+          'Refinery Code Search: Agents can find relevant code while writing PRDs.',
+          'Smart Alerts: Prompts encourage initializing PRDs from existing codebases.',
+        ]}
+      />
+      <SectionList
+        title="Bug Fixes"
+        items={[
+          'Fixed an issue where Blueprints appeared grayed out incorrectly.',
+          'Resolved file upload limits for the agent panel. Files larger than 5MB are now supported.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0160" version="0.16.0" date="December 8, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Planner Redesign: New responsive panel layout with improved scrolling and persistent collapsed state.',
+          'Review Agent: Agents can review PRDs and Blueprints on demand and flag Ambiguous, Conflict, or Missing issues.',
+          'Foundry System Diagrams: System diagrams are now a dedicated Blueprint type with Mermaid rendering and zoom controls.',
+          'Artifact Folders: Organize artifacts into hierarchical folders with drag-and-drop and breadcrumbs.',
+        ]}
+      />
+      <SectionList
+        title="Minor Updates"
+        items={[
+          'Mermaid Editor: Toggle between visual and code-based diagram editing.',
+          'Fuzzy Search: Blueprint mentions now match even when spaces or dashes are omitted.',
+        ]}
+      />
+      <SectionList
+        title="Bug Fixes"
+        items={[
+          'Fixed auto-save race conditions in Foundry.',
+          'Fixed GitHub integration deletion issues.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0150" version="0.15.0" date="November 26, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Agent Alerts System: Proactive alerts for syncing Blueprints and reviewing drift without notification fatigue.',
+          'Refinery Redesign: Added a table of contents and unified comments interface.',
+          'Blueprint Management: Drag-and-drop feature node organization with nested hierarchies.',
+        ]}
+      />
+      <SectionList
+        title="Performance Improvements"
+        items={[
+          'Improved latency for background tasks during high concurrent usage.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0140" version="0.14.0" date="November 16, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Foundry V2: Shifted to one Blueprint per feature for greater flexibility.',
+          'Proactive Drift Detection: Automatically compares code against Blueprints on every push.',
+          'Cross-Document Suggestions: Agents can suggest edits across multiple Blueprint documents.',
+        ]}
+      />
+      <SectionList
+        title="Minor Updates"
+        items={[
+          'Planner Agent: Can assign Work Orders directly to team members.',
+          'Email Notifications: Mentions now trigger email notifications with deep links.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0130" version="0.13.0" date="November 4, 2025">
+      <SectionList
+        title="Minor Updates"
+        items={[
+          'Image Resizing: Resize images embedded in PRDs.',
+          'New PRD Template: Added Business Problems, Current State, and Success Criteria sections.',
+          'Unified Indexing: Codebase indexing moved to a single Overview page.',
+        ]}
+      />
+      <SectionList
+        title="Bug Fixes"
+        items={[
+          'Fixed agent context overflow when processing PDFs with images.',
+          'Resolved memory overflows caused by base64 encoding.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0120" version="0.12.0" date="October 27, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Unified Planner Agent: Single agent for Work Order management, planning, and sequencing.',
+          'Drag-and-Drop Sequencing: Move Work Orders visually between phases.',
+          'Refinery Search: Agents can search artifacts not explicitly added to chat context.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0100" version="0.10.0" date="September 23, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Refinery Comments: Leave comments directly on PRDs.',
+          'Enhanced Blueprint Sync: Trigger sync from the Foundry agent or editor dropdown.',
+          'Smart Mentions: Mention artifacts in Refinery and Blueprint sections.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0090" version="0.9.0" date="September 23, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Project Console Stats: Refreshed console with per-module statistics.',
+          'Validator Agent: Dedicated agent for answering questions about user feedback.',
+          'Automatic Re-indexing: Codebases re-index on new commits.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0080" version="0.8.0" date="September 16, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Large Audio Support: Refinery supports audio files larger than 5MB.',
+          'Smart Indexing: Only modified files are processed during re-indexing.',
+          'Planner Terminology: Renamed Iterations to Phases.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0071" version="0.7.1" date="September 8, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Filtering: Filter Work Orders by Blueprint section.',
+          'Visual Diffs: Improved visualization of agent suggestions.',
+          'Auto-Versioning: PRDs are versioned automatically on feature extraction.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0060" version="0.6.0" date="August 29, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Refinery UI Mocker: Visualize application interfaces directly from the PRD.',
+          'Markdown Export: Export Blueprints for external editing and sharing.',
+          'Iteration Planning Agent: Helps organize and assign Work Orders across cycles.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0050" version="0.5.0" date="August 21, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Foundry: Update Blueprints directly from the indexed codebase with automatic sync.',
+          'Validator: New Feedback Inbox with real-time dashboard, filtering, and API ingestion.',
+        ]}
+      />
+      <SectionList
+        title="Bug Fixes"
+        items={[
+          'Fixed Blueprint section updates not reflecting in real time.',
+          'Resolved MCP connection stability issues.',
+          'Improved GitHub integration error handling.',
+        ]}
+      />
+      <SectionList
+        title="Performance Improvements"
+        items={[
+          'Reduced indexing time for large repositories by 30 percent.',
+          'Faster agent response times.',
+          'Optimized Blueprint editor memory usage.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0040" version="0.4.0" date="August 11, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Refinery: Revamped editor, improved navigation, artifact management, and in-editor agent suggestions.',
+          'Foundry: Blueprint Navigator with completion progress and improved collaboration.',
+          'Planner: Edit implementation plans via chat with better IDE workflow integration.',
+          'Admin: New secure custom invite links and improved onboarding.',
+        ]}
+      />
+      <SectionList
+        title="Bug Fixes"
+        items={[
+          'Fixed Work Order status update issues.',
+          'Resolved Feature Node extraction issues in large PRDs.',
+          'Fixed UI Mocker refresh problems.',
+        ]}
+      />
+      <SectionList
+        title="Performance Improvements"
+        items={[
+          'Faster loading for large Blueprints.',
+          'Reduced memory usage in the PRD editor.',
+          'Improved drag-and-drop responsiveness.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0030" version="0.3.0" date="July 28, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Assembler: MCP integration and visual Work Order dashboard.',
+          'Planner: AI-powered Work Order generation and lifecycle management.',
+          'Foundry: Blueprint templates and stale node detection.',
+        ]}
+      />
+      <SectionList
+        title="Bug Fixes"
+        items={[
+          'Fixed GitHub authentication issues.',
+          'Improved large file upload handling.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0020" version="0.2.0" date="July 15, 2025">
+      <SectionList
+        title="Major Updates"
+        items={[
+          'Refinery: AI-powered PRD editor, UI Mocker, and artifact management.',
+          'Foundry: Blueprint creation, Feature Node extraction, and Blueprint Agent assistance.',
+        ]}
+      />
+      <SectionList
+        title="Bug Fixes"
+        items={[
+          'Fixed authentication and file upload issues.',
+        ]}
+      />
+    </Release>
+
+    <Release id="cl-0010" version="0.1.0" date="July 1, 2025">
+      <SectionList
+        title="Core Features"
+        items={[
+          'Project management and GitHub integration.',
+          'Secure user authentication.',
+        ]}
+      />
+      <SectionList
+        title="Modules"
+        items={[
+          'Refinery, Foundry, Planner, Assembler, Validator.',
+        ]}
+      />
+      <SectionList
+        title="Known Issues"
+        items={[
+          'Limited AI assistance.',
+          'Basic UI and integrations.',
+        ]}
+      />
+    </Release>
   </motion.div>
 );
