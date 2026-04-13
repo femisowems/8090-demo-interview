@@ -9,9 +9,11 @@ import {
 } from 'lucide-react';
 import { useTheme } from './hooks/useTheme';
 
-/* ─── Types ─────────────────────────────────────────────────── */
+type ThemeVariant = 'emerald' | 'blue';
+
 interface LandingPageProps {
   onEnterDocs: () => void;
+  variant?: ThemeVariant;
 }
 
 /* ─── Local Icons ───────────────────────────────────────────── */
@@ -68,52 +70,53 @@ function FadeUp({ children, delay = 0, className = '' }: { children: React.React
 }
 
 /* ─── Terminal Animation ─────────────────────────────────────── */
-const TERMINAL_LINES = [
-  { text: '$ 8090 init my-fintech-app', color: 'text-emerald-400', delay: 0 },
+const getTerminalLines = (variant: ThemeVariant = 'emerald') => [
+  { text: '$ 8090 init my-fintech-app', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 0 },
   { text: '  → Scaffolding Software Factory project...', color: 'text-zinc-400', delay: 0.6 },
-  { text: '  ✓ Requirements workspace created', color: 'text-emerald-400', delay: 1.1 },
-  { text: '  ✓ Foundry blueprints initialized', color: 'text-emerald-400', delay: 1.6 },
-  { text: '  ✓ Planner connected to GitHub', color: 'text-emerald-400', delay: 2.1 },
+  { text: '  ✓ Requirements workspace created', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 1.1 },
+  { text: '  ✓ Foundry blueprints initialized', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 1.6 },
+  { text: '  ✓ Planner connected to GitHub', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 2.1 },
   { text: '', color: '', delay: 2.5 },
-  { text: '$ 8090 refinery --draft "Payment gateway integration"', color: 'text-emerald-400', delay: 2.8 },
+  { text: '$ 8090 refinery --draft "Payment gateway integration"', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 2.8 },
   { text: '  → AI drafting feature requirements...', color: 'text-zinc-400', delay: 3.3 },
-  { text: '  ✓ Generated 14 acceptance criteria', color: 'text-emerald-400', delay: 3.8 },
-  { text: '  ✓ Linked to 3 existing blueprints', color: 'text-emerald-400', delay: 4.2 },
+  { text: '  ✓ Generated 14 acceptance criteria', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 3.8 },
+  { text: '  ✓ Linked to 3 existing blueprints', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 4.2 },
   { text: '', color: '', delay: 4.6 },
-  { text: '$ 8090 planner --extract && 8090 ship', color: 'text-emerald-400', delay: 4.9 },
+  { text: '$ 8090 planner --extract && 8090 ship', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 4.9 },
   { text: '  → 12 work orders queued. Agents ready.', color: 'text-zinc-400', delay: 5.4 },
-  { text: '  ✓ Phase 1 complete in 2h 14m  🚀', color: 'text-emerald-400', delay: 5.9 },
+  { text: '  ✓ Phase 1 complete in 2h 14m  🚀', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 5.9 },
 ];
 
-function TerminalHero() {
+function TerminalHero({ variant = 'emerald' }: { variant?: ThemeVariant }) {
   const [visibleLines, setVisibleLines] = useState(0);
+  const lines = getTerminalLines(variant);
 
   useEffect(() => {
     const timeouts: ReturnType<typeof setTimeout>[] = [];
-    TERMINAL_LINES.forEach((line, i) => {
+    lines.forEach((line, i) => {
       timeouts.push(setTimeout(() => setVisibleLines(i + 1), line.delay * 1000 + 800));
     });
     return () => timeouts.forEach(clearTimeout);
-  }, []);
+  }, [variant]);
 
   return (
-    <div className="relative rounded-2xl overflow-hidden border border-border/50 dark:border-white/10 bg-[#09090b] shadow-2xl shadow-emerald-900/10 dark:shadow-black/60 backdrop-blur-sm">
+    <div className={`relative rounded-2xl overflow-hidden border border-border/50 dark:border-white/10 bg-[#09090b] shadow-2xl ${variant === 'blue' ? 'shadow-blue-900/10' : 'shadow-emerald-900/10'} dark:shadow-black/60 backdrop-blur-sm`}>
       {/* Window chrome */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-800 bg-zinc-900">
         <div className="w-3 h-3 rounded-full bg-red-500/70" />
         <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-        <div className="w-3 h-3 rounded-full bg-emerald-500/70" />
+        <div className={`w-3 h-3 rounded-full ${variant === 'blue' ? 'bg-blue-500/70' : 'bg-emerald-500/70'}`} />
         <span className="ml-3 text-[10px] font-mono font-bold tracking-tight text-zinc-500 uppercase">software-factory — zsh</span>
       </div>
       {/* Terminal body */}
       <div className="p-5 font-mono text-sm leading-relaxed min-h-[280px] bg-[#09090b]">
-        {TERMINAL_LINES.slice(0, visibleLines).map((line, i) => (
+        {lines.slice(0, visibleLines).map((line, i) => (
           <div key={i} className={line.color}>
             {line.text}
           </div>
         ))}
-        {visibleLines < TERMINAL_LINES.length && (
-          <span className="inline-block w-2 h-4 bg-emerald-400 animate-pulse ml-0.5 align-middle" />
+        {visibleLines < lines.length && (
+          <span className={`inline-block w-2 h-4 ${variant === 'blue' ? 'bg-blue-400' : 'bg-emerald-400'} animate-pulse ml-0.5 align-middle`} />
         )}
       </div>
     </div>
@@ -261,9 +264,25 @@ const TESTIMONIALS = [
 
 
 /* ─── Main Component ─────────────────────────────────────────── */
-export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
+export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant = 'emerald' }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isDarkMode, toggleDarkMode } = useTheme();
+  
+  // Theme context helper
+  const t = {
+    primary: variant === 'blue' ? 'blue-500' : 'emerald-500',
+    primaryHover: variant === 'blue' ? 'blue-600' : 'emerald-600',
+    primarySoft: variant === 'blue' ? 'blue-500/10' : 'emerald-500/10',
+    primarySoftBorder: variant === 'blue' ? 'border-blue-500/20' : 'border-emerald-500/20',
+    textPrimary: variant === 'blue' ? 'text-blue-500' : 'text-emerald-500',
+    textPrimaryDark: variant === 'blue' ? 'text-blue-600 dark:text-blue-400' : 'text-emerald-600 dark:text-emerald-400',
+    glow: variant === 'blue' ? 'bg-blue-500/10 dark:bg-blue-500/8' : 'bg-emerald-500/10 dark:bg-emerald-500/8',
+    ring: variant === 'blue' ? 'focus:ring-blue-500/50' : 'focus:ring-emerald-500/50',
+    selection: variant === 'blue' ? 'selection:bg-blue-500/30' : 'selection:bg-emerald-500/30',
+    shadow: variant === 'blue' ? 'shadow-blue-500/20' : 'shadow-emerald-500/20',
+    shadowLg: variant === 'blue' ? 'shadow-blue-500/25 target:shadow-blue-500/40' : 'shadow-emerald-500/25 hover:shadow-emerald-500/40',
+  };
+
   const { scrollY } = useScroll();
   const navBg = useTransform(
     scrollY, 
@@ -275,8 +294,88 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
   const navBlur = useTransform(scrollY, [0, 80], [0, 16]);
   const navBorder = useTransform(scrollY, [0, 80], ['rgba(255,255,255,0)', isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)']);
 
+  const FEATURES_THEMED = [
+    {
+      icon: FileCode2,
+      title: 'Refinery',
+      desc: 'Collaboratively define requirements, capture user logic, and architectural PRDs to align every stakeholder.',
+      accent: variant === 'blue' ? 'from-blue-500/20 to-blue-500/0' : 'from-emerald-500/20 to-emerald-500/0',
+      iconBg: variant === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-emerald-500/10 text-emerald-400',
+    },
+    {
+      icon: Boxes,
+      title: 'Foundry',
+      desc: 'Convert visions into living architecture blueprints. Feature extraction agents ensure specs stay in sync with code.',
+      accent: 'from-blue-500/20 to-blue-500/0',
+      iconBg: 'bg-blue-500/10 text-blue-400',
+    },
+    {
+      icon: ClipboardList,
+      title: 'Planner',
+      desc: 'Automatically break blueprints into actionable Work Orders. Orchestrate team execution with AI-driven sequencing.',
+      accent: 'from-violet-500/20 to-violet-500/0',
+      iconBg: 'bg-violet-500/10 text-violet-400',
+    },
+    {
+      icon: Shield,
+      title: 'Validator',
+      desc: 'Verify every PR against acceptance criteria. Ensure architecture discipline is maintained across the entire SDLC.',
+      accent: 'from-amber-500/20 to-amber-500/0',
+      iconBg: 'bg-amber-500/10 text-amber-400',
+    },
+    {
+      icon: GitBranch,
+      title: 'Codebase Connect',
+      desc: 'Connect your repositories to bridge the gap between abstract requirements and production source code.',
+      accent: 'from-pink-500/20 to-pink-500/0',
+      iconBg: 'bg-pink-500/10 text-pink-400',
+    },
+    {
+      icon: Package,
+      title: 'Artifacts',
+      desc: 'Store and cite proprietary business logic, designs, and data files to provide agents with perfect context.',
+      accent: 'from-cyan-500/20 to-cyan-500/0',
+      iconBg: 'bg-cyan-500/10 text-cyan-400',
+    },
+  ];
+
+  const STEPS_THEMED = [
+    {
+      num: '01',
+      icon: FileCode2,
+      title: 'Write Requirements',
+      desc: 'Use the AI Refinery to produce product overview docs, feature specs, and acceptance criteria — in minutes.',
+      color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400',
+      border: variant === 'blue' ? 'border-blue-500/20' : 'border-emerald-500/20',
+    },
+    {
+      num: '02',
+      icon: Boxes,
+      title: 'Design Blueprints',
+      desc: 'Foundry turns your specs into synchronized architecture diagrams, component maps, and system blueprints.',
+      color: 'text-blue-400',
+      border: 'border-blue-500/20',
+    },
+    {
+      num: '03',
+      icon: ClipboardList,
+      title: 'Queue Work Orders',
+      desc: 'Planner extracts discrete work orders from your blueprints and sequences them into phase-based sprints.',
+      color: 'text-violet-400',
+      border: 'border-violet-500/20',
+    },
+    {
+      num: '04',
+      icon: Rocket,
+      title: 'Ship with Agents',
+      desc: 'AI agents execute work orders with full context — codebase, requirements, and architecture — and validate before merge.',
+      color: 'text-amber-400',
+      border: 'border-amber-500/20',
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-emerald-500/30 transition-colors duration-500">
+    <div className={`min-h-screen bg-background text-foreground overflow-x-hidden ${t.selection} transition-colors duration-500`}>
 
       {/* ═══ NAVBAR ══════════════════════════════════════════════ */}
       <motion.header
@@ -292,10 +391,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
           <div className="flex items-center gap-8">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2.5 font-bold text-lg group">
               <div className="relative">
-                <div className="bg-emerald-500 text-black p-1.5 rounded-lg shadow-lg relative z-10 transition-transform group-hover:scale-110">
+                <div className={`bg-${t.primary} text-black p-1.5 rounded-lg shadow-lg relative z-10 transition-transform group-hover:scale-110`}>
                   <Zap className="h-4 w-4 fill-current" />
                 </div>
-                <div className="absolute inset-0 bg-emerald-500/30 blur-md rounded-lg group-hover:scale-150 transition-transform duration-500" />
+                <div className={`absolute inset-0 bg-${t.primary}/30 blur-md rounded-lg group-hover:scale-150 transition-transform duration-500`} />
               </div>
               <span className="text-foreground">8090.ai</span>
             </button>
@@ -316,15 +415,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
 
           {/* Right actions */}
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-500 shadow-sm">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+            <div className={`hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full ${variant === 'blue' ? 'bg-blue-500/10 border-blue-500/20 text-blue-500' : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'} text-[10px] font-bold shadow-sm`}>
+              <div className={`w-1.5 h-1.5 rounded-full ${variant === 'blue' ? 'bg-blue-500' : 'bg-emerald-500'} animate-pulse shadow-[0_0_8px_rgba(20,184,166,0.3)]`} />
               OPERATIONAL
             </div>
             
             <div className="flex items-center gap-1 group">
               <button
                 onClick={toggleDarkMode}
-                className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                className={`p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all focus:outline-none focus:ring-2 ${t.ring}`}
                 aria-label="Toggle theme"
               >
                 {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -339,7 +438,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
 
             <button
               onClick={onEnterDocs}
-              className="text-sm font-bold bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-black px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20"
+              className={`text-sm font-bold bg-${t.primary} hover:bg-${t.primaryHover} active:scale-95 text-black px-5 py-2.5 rounded-xl transition-all ${t.shadow}`}
             >
               Get started
             </button>
@@ -387,7 +486,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
       {/* ═══ HERO ════════════════════════════════════════════════ */}
       <section className="relative pt-32 pb-24 px-6 overflow-hidden">
         {/* Background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-emerald-500/10 dark:bg-emerald-500/8 blur-[120px] rounded-full pointer-events-none opacity-50 dark:opacity-100" />
+        <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] ${t.glow} blur-[120px] rounded-full pointer-events-none opacity-50 dark:opacity-100`} />
         <div className="absolute top-40 left-1/4 w-[300px] h-[300px] bg-blue-500/5 blur-[80px] rounded-full pointer-events-none" />
         <div className="absolute top-20 right-1/4 w-[250px] h-[250px] bg-violet-500/5 blur-[80px] rounded-full pointer-events-none" />
 
@@ -399,7 +498,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
             transition={{ duration: 0.5 }}
             className="flex justify-center mb-10"
           >
-            <button className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/5 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:border-emerald-500/50 transition-all group backdrop-blur-sm shadow-sm">
+            <button className={`flex items-center gap-2 px-4 py-1.5 rounded-full border ${variant === 'blue' ? 'border-blue-500/30 bg-blue-500/5 text-blue-600 dark:text-blue-400 hover:border-blue-500/50' : 'border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 hover:border-emerald-500/50'} text-xs font-bold transition-all group backdrop-blur-sm shadow-sm`}>
               <Sparkles className="h-3 w-3" />
               Introducing Software Factory v2 — built for AI-native teams
               <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
@@ -417,7 +516,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
               >
                 <span className={isDarkMode ? "text-white" : "text-zinc-900"}>Build software.</span>
                 <br />
-                <span className="text-emerald-600 dark:text-emerald-400">Without the chaos.</span>
+                <span className={t.textPrimaryDark}>Without the chaos.</span>
               </motion.h1>
 
               <motion.p
@@ -437,7 +536,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
               >
                 <button
                   onClick={onEnterDocs}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-xl transition-all shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:-translate-y-0.5 active:translate-y-0"
+                  className={`inline-flex items-center gap-2 px-6 py-3.5 bg-${t.primary} hover:bg-${variant === 'blue' ? 'blue-400' : 'emerald-400'} text-black font-bold rounded-xl transition-all ${t.shadowLg} hover:-translate-y-0.5 active:translate-y-0`}
                 >
                   Start building <ArrowRight className="h-4 w-4" />
                 </button>
@@ -455,9 +554,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="flex items-center gap-6 text-sm text-muted-foreground"
               >
-                <span className="flex items-center gap-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> Free to start</span>
-                <span className="flex items-center gap-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> No credit card</span>
-                <span className="flex items-center gap-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> Deploy in minutes</span>
+                <span className="flex items-center gap-1.5"><CheckCircle2 className={`h-4 w-4 ${t.textPrimary}`} /> Free to start</span>
+                <span className="flex items-center gap-1.5"><CheckCircle2 className={`h-4 w-4 ${t.textPrimary}`} /> No credit card</span>
+                <span className="flex items-center gap-1.5"><CheckCircle2 className={`h-4 w-4 ${t.textPrimary}`} /> Deploy in minutes</span>
               </motion.div>
             </div>
 
@@ -467,7 +566,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
-              <TerminalHero />
+              <TerminalHero variant={variant} />
             </motion.div>
           </div>
         </div>
@@ -478,7 +577,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {STATS.map((stat, i) => (
             <FadeUp key={stat.label} delay={i * 0.08} className="text-center space-y-1">
-              <div className="text-4xl font-black text-emerald-500">{stat.value}</div>
+              <div className={`text-4xl font-black ${t.textPrimary}`}>{stat.value}</div>
               <div className="text-sm text-muted-foreground">{stat.label}</div>
             </FadeUp>
           ))}
@@ -499,7 +598,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
       <section id="features" className="py-24 px-6 relative">
         <div className="max-w-7xl mx-auto space-y-16">
           <FadeUp className="text-center space-y-4 max-w-2xl mx-auto">
-            <p className="text-xs font-bold tracking-[0.25em] uppercase text-emerald-500">Platform</p>
+            <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Platform</p>
             <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-foreground">Everything in one loop.</h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
               Requirements, architecture, and execution all live together — so your team and your agents always have the full picture.
@@ -514,7 +613,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                   <motion.div
                     whileHover={{ y: -4, scale: 1.01 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="group relative p-6 rounded-2xl border border-border/50 bg-card hover:border-emerald-500/30 overflow-hidden cursor-pointer transition-colors shadow-sm hover:shadow-xl hover:shadow-emerald-500/5 h-full"
+                    className={`group relative p-6 rounded-2xl border border-border/50 bg-card hover:border-${variant === 'blue' ? 'blue-500/30' : 'emerald-500/30'} overflow-hidden cursor-pointer transition-colors shadow-sm hover:shadow-xl hover:shadow-${variant === 'blue' ? 'blue-500/5' : 'emerald-500/5'} h-full`}
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br ${feat.accent} opacity-0 group-hover:opacity-[0.03] dark:group-hover:opacity-10 shadow-inner transition-opacity duration-500`} />
                     <div className="relative space-y-4 flex flex-col h-full">
@@ -541,13 +640,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
       <section className="py-24 px-6 bg-muted/20 border-t border-b border-border/50">
         <div className="max-w-7xl mx-auto space-y-16">
           <FadeUp className="text-center space-y-4">
-            <p className="text-xs font-bold tracking-[0.25em] uppercase text-emerald-500">Workflow</p>
+            <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Workflow</p>
             <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-foreground">From idea to shipped. In one system.</h2>
           </FadeUp>
 
           <div className="relative">
             {/* Connector line (desktop) */}
-            <div className="absolute top-10 left-[calc(12.5%+20px)] right-[calc(12.5%+20px)] h-px bg-gradient-to-r from-emerald-500/10 via-violet-500/10 to-amber-500/10 hidden lg:block" />
+            <div className={`absolute top-10 left-[calc(12.5%+20px)] right-[calc(12.5%+20px)] h-px bg-gradient-to-r ${variant === 'blue' ? 'from-blue-500/10' : 'from-emerald-500/10'} via-violet-500/10 to-amber-500/10 hidden lg:block`} />
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {STEPS.map((step, i) => {
@@ -575,7 +674,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
           <FadeUp className="flex justify-center">
             <button
               onClick={onEnterDocs}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-black font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20 hover:-translate-y-0.5 active:scale-95"
+              className={`inline-flex items-center gap-2 px-6 py-3 bg-${t.primary} hover:bg-${t.primaryHover} text-black font-bold rounded-xl transition-all shadow-lg shadow-${variant === 'blue' ? 'blue-500/20' : 'emerald-500/20'} hover:-translate-y-0.5 active:scale-95`}
             >
               Read the docs <BookOpen className="h-4 w-4" />
             </button>
@@ -600,8 +699,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                 { icon: CheckCircle2, text: 'Spec-driven development' },
               ].map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-3 text-sm text-foreground/80">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
-                    <Icon className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <div className={`w-7 h-7 rounded-lg ${t.primarySoft} flex items-center justify-center shrink-0`}>
+                    <Icon className={`h-3.5 w-3.5 ${t.textPrimaryDark}`} />
                   </div>
                   {text}
                 </li>
@@ -638,8 +737,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                 { icon: BarChart3, text: 'Manageable architecture' },
               ].map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-3 text-sm text-foreground/80">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
-                    <Icon className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <div className={`w-7 h-7 rounded-lg ${t.primarySoft} flex items-center justify-center shrink-0`}>
+                    <Icon className={`h-3.5 w-3.5 ${t.textPrimaryDark}`} />
                   </div>
                   {text}
                 </li>
@@ -666,8 +765,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                 { icon: GitBranch, text: 'Blueprint-to-code mapping' },
               ].map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-3 text-sm text-foreground/80">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
-                    <Icon className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <div className={`w-7 h-7 rounded-lg ${t.primarySoft} flex items-center justify-center shrink-0`}>
+                    <Icon className={`h-3.5 w-3.5 ${t.textPrimaryDark}`} />
                   </div>
                   {text}
                 </li>
@@ -704,8 +803,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                 { icon: Zap, text: 'Rapid context switching' },
               ].map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-3 text-sm text-foreground/80">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
-                    <Icon className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <div className={`w-7 h-7 rounded-lg ${t.primarySoft} flex items-center justify-center shrink-0`}>
+                    <Icon className={`h-3.5 w-3.5 ${t.textPrimaryDark}`} />
                   </div>
                   {text}
                 </li>
@@ -754,7 +853,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
       <section id="pricing" className="py-24 px-6">
         <div className="max-w-5xl mx-auto space-y-14">
           <FadeUp className="text-center space-y-4">
-            <p className="text-xs font-bold tracking-[0.25em] uppercase text-emerald-500">Subscription</p>
+            <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Subscription</p>
             <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-foreground">Software Factory Subscription Options</h2>
             <p className="text-muted-foreground">Select the plan that fits your team's velocity and governance requirements.</p>
           </FadeUp>
@@ -793,12 +892,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
               <FadeUp key={plan.name} delay={i * 0.1} className="h-full">
                 <div className={`relative h-full rounded-2xl border p-8 flex flex-col space-y-6 transition-all ${
                   plan.highlight
-                    ? 'border-emerald-500 bg-emerald-500/[0.03] dark:bg-emerald-500/[0.05] shadow-2xl shadow-emerald-500/10'
+                    ? `border-${t.primary} bg-${t.primary}/[0.03] dark:bg-${t.primary}/[0.05] shadow-2xl shadow-${t.primary}/10`
                     : 'border-border/50 bg-card shadow-sm'
                 }`}>
                   {plan.highlight && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="px-3 py-1 rounded-full bg-emerald-500 text-black text-[10px] font-black uppercase tracking-wider">Recommended</span>
+                      <span className={`px-3 py-1 rounded-full bg-${t.primary} text-black text-[10px] font-black uppercase tracking-wider`}>Recommended</span>
                     </div>
                   )}
                   <div>
@@ -811,7 +910,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                   <ul className="space-y-4 flex-1">
                     {plan.features.map(f => (
                       <li key={f} className="flex items-center gap-3 text-sm text-foreground/80">
-                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <CheckCircle2 className={`h-4 w-4 ${t.textPrimary} shrink-0`} />
                         {f}
                       </li>
                     ))}
@@ -820,7 +919,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                     onClick={onEnterDocs}
                     className={`w-full py-3.5 rounded-xl font-bold text-sm transition-all active:scale-95 ${
                       plan.highlight
-                        ? 'bg-emerald-500 hover:bg-emerald-600 text-black shadow-lg shadow-emerald-500/20'
+                        ? `bg-${t.primary} hover:bg-${t.primaryHover} text-black shadow-lg shadow-${t.primary}/20`
                         : 'bg-muted/50 hover:bg-muted border border-border text-foreground'
                     }`}
                   >
@@ -837,7 +936,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
       <section className="py-24 px-6 bg-muted/5 border-t border-b border-border/50">
         <div className="max-w-5xl mx-auto space-y-14">
           <FadeUp className="text-center space-y-4">
-            <p className="text-xs font-bold tracking-[0.25em] uppercase text-emerald-500">Professional Services</p>
+            <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Professional Services</p>
             <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-foreground">8090 Custom Engagements</h2>
             <p className="text-muted-foreground">Customized SOWs for full stack teams at different stages of their AI journey.</p>
           </FadeUp>
@@ -873,12 +972,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                 <div className="p-8 rounded-2xl border border-border bg-card space-y-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
                   <div className="space-y-4 flex-1">
                     <h3 className="text-2xl font-black text-foreground">{engagement.title}</h3>
-                    <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.2em]">{engagement.price}</p>
+                    <p className={`text-xs font-bold ${t.textPrimaryDark} uppercase tracking-[0.2em]`}>{engagement.price}</p>
                     <p className="text-muted-foreground text-sm leading-relaxed">{engagement.desc}</p>
                     <ul className="space-y-3 pt-2">
                       {engagement.features.map(f => (
                         <li key={f} className="flex items-center gap-2.5 text-xs text-foreground/70">
-                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                          <CheckCircle2 className={`h-3.5 w-3.5 ${t.textPrimary} shrink-0`} />
                           {f}
                         </li>
                       ))}
@@ -920,13 +1019,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
 
       {/* ═══ FINAL CTA ═══════════════════════════════════════════ */}
       <section className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-emerald-500/5 to-transparent pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none" />
+        <div className={`absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t ${variant === 'blue' ? 'from-blue-500/5' : 'from-emerald-500/5'} to-transparent pointer-events-none`} />
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] ${t.glow} blur-[100px] rounded-full pointer-events-none`} />
         <FadeUp className="relative text-center space-y-8 max-w-3xl mx-auto">
           <h2 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] text-foreground">
             Build in a weekend.
             <br />
-            <span className="text-emerald-500">Scale to millions.</span>
+            <span className={t.textPrimary}>Scale to millions.</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-xl mx-auto">
             Start with a free account. Your first project is live in under 10 minutes.
@@ -934,7 +1033,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
           <div className="flex flex-wrap gap-4 justify-center">
             <button
               onClick={onEnterDocs}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-black font-black text-lg rounded-2xl transition-all shadow-2xl shadow-emerald-500/20 hover:-translate-y-1 active:scale-95"
+              className={`inline-flex items-center gap-2 px-8 py-4 bg-${t.primary} hover:bg-${t.primaryHover} text-black font-black text-lg rounded-2xl transition-all shadow-2xl ${t.shadow} hover:-translate-y-1 active:scale-95`}
             >
               Start for free <ArrowRight className="h-5 w-5" />
             </button>
@@ -942,7 +1041,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
               onClick={onEnterDocs}
               className="inline-flex items-center gap-2 px-8 py-4 bg-card hover:bg-muted border border-border text-foreground font-bold text-lg rounded-2xl transition-all shadow-sm active:scale-95"
             >
-              <BookOpen className="h-5 w-5 text-emerald-500" /> Read the docs
+              <BookOpen className={`h-5 w-5 ${t.textPrimary}`} /> Read the docs
             </button>
           </div>
           <p className="text-[11px] font-bold text-muted-foreground/50 uppercase tracking-widest">No credit card required · Free forever on Hobby plan</p>
@@ -956,7 +1055,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
             {/* Brand */}
             <div className="lg:col-span-2 space-y-5">
               <div className="flex items-center gap-2.5 font-bold">
-                <div className="bg-emerald-500 text-black p-1.5 rounded-lg shadow-sm">
+                <div className={`bg-${t.primary} text-black p-1.5 rounded-lg shadow-sm`}>
                   <Zap className="h-4 w-4 fill-current" />
                 </div>
                 <span className="text-foreground">8090.ai</span>
@@ -1010,7 +1109,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
           <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40">
             <p>© {new Date().getFullYear()} 8090 Solutions Inc. — All rights reserved.</p>
             <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.3)]" />
+              <div className={`w-1.5 h-1.5 rounded-full ${variant === 'blue' ? 'bg-blue-500' : 'bg-emerald-500'} animate-pulse shadow-[0_0_8px_rgba(20,184,166,0.3)]`} />
               All systems operational · v2.4.1
             </div>
           </div>
