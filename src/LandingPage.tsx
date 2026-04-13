@@ -413,9 +413,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] text-zinc-900 dark:text-white"
+                className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05]"
               >
-                Build software.
+                <span className={isDarkMode ? "text-white" : "text-zinc-900"}>Build software.</span>
                 <br />
                 <span className="text-emerald-600 dark:text-emerald-400">Without the chaos.</span>
               </motion.h1>
