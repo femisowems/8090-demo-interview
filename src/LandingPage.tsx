@@ -147,93 +147,12 @@ function Marquee() {
 }
 
 /* ─── Feature cards ──────────────────────────────────────────── */
-const FEATURES = [
-  {
-    icon: FileCode2,
-    title: 'Refinery',
-    desc: 'Collaboratively define requirements, capture user logic, and architectural PRDs to align every stakeholder.',
-    accent: 'from-emerald-500/20 to-emerald-500/0',
-    iconBg: 'bg-emerald-500/10 text-emerald-400',
-  },
-  {
-    icon: Boxes,
-    title: 'Foundry',
-    desc: 'Convert visions into living architecture blueprints. Feature extraction agents ensure specs stay in sync with code.',
-    accent: 'from-blue-500/20 to-blue-500/0',
-    iconBg: 'bg-blue-500/10 text-blue-400',
-  },
-  {
-    icon: ClipboardList,
-    title: 'Planner',
-    desc: 'Automatically break blueprints into actionable Work Orders. Orchestrate team execution with AI-driven sequencing.',
-    accent: 'from-violet-500/20 to-violet-500/0',
-    iconBg: 'bg-violet-500/10 text-violet-400',
-  },
-  {
-    icon: Shield,
-    title: 'Validator',
-    desc: 'Verify every PR against acceptance criteria. Ensure architecture discipline is maintained across the entire SDLC.',
-    accent: 'from-amber-500/20 to-amber-500/0',
-    iconBg: 'bg-amber-500/10 text-amber-400',
-  },
-  {
-    icon: GitBranch,
-    title: 'Codebase Connect',
-    desc: 'Connect your repositories to bridge the gap between abstract requirements and production source code.',
-    accent: 'from-pink-500/20 to-pink-500/0',
-    iconBg: 'bg-pink-500/10 text-pink-400',
-  },
-  {
-    icon: Package,
-    title: 'Artifacts',
-    desc: 'Store and cite proprietary business logic, designs, and data files to provide agents with perfect context.',
-    accent: 'from-cyan-500/20 to-cyan-500/0',
-    iconBg: 'bg-cyan-500/10 text-cyan-400',
-  },
-];
-
 /* ─── Stats ──────────────────────────────────────────────────── */
 const STATS = [
   { value: '10×', label: 'Faster feature delivery' },
   { value: '80%', label: 'Less time writing specs' },
   { value: '0', label: 'Context lost between tools' },
   { value: '∞', label: 'Scale without hiring' },
-];
-
-/* ─── Steps ──────────────────────────────────────────────────── */
-const STEPS = [
-  {
-    num: '01',
-    icon: FileCode2,
-    title: 'Write Requirements',
-    desc: 'Use the AI Refinery to produce product overview docs, feature specs, and acceptance criteria — in minutes.',
-    color: 'text-emerald-400',
-    border: 'border-emerald-500/20',
-  },
-  {
-    num: '02',
-    icon: Boxes,
-    title: 'Design Blueprints',
-    desc: 'Foundry turns your specs into synchronized architecture diagrams, component maps, and system blueprints.',
-    color: 'text-blue-400',
-    border: 'border-blue-500/20',
-  },
-  {
-    num: '03',
-    icon: ClipboardList,
-    title: 'Queue Work Orders',
-    desc: 'Planner extracts discrete work orders from your blueprints and sequences them into phase-based sprints.',
-    color: 'text-violet-400',
-    border: 'border-violet-500/20',
-  },
-  {
-    num: '04',
-    icon: Rocket,
-    title: 'Ship with Agents',
-    desc: 'AI agents execute work orders with full context — codebase, requirements, and architecture — and validate before merge.',
-    color: 'text-amber-400',
-    border: 'border-amber-500/20',
-  },
 ];
 
 /* ─── Testimonials ───────────────────────────────────────────── */
@@ -294,7 +213,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
   const navBlur = useTransform(scrollY, [0, 80], [0, 16]);
   const navBorder = useTransform(scrollY, [0, 80], ['rgba(255,255,255,0)', isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)']);
 
-  const FEATURES_THEMED = [
+  const FEATURES = [
     {
       icon: FileCode2,
       title: 'Refinery',
@@ -339,7 +258,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
     },
   ];
 
-  const STEPS_THEMED = [
+  const STEPS = [
     {
       num: '01',
       icon: FileCode2,
