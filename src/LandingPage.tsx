@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useInView, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import {
   Zap, ArrowRight, MessageSquare, ChevronRight,
-  Terminal, Layers, GitBranch, CheckCircle2, Cpu, FileCode2,
-  Boxes, Shield, Sparkles, Users, BookOpen, Play, Star,
-  Package, ClipboardList, Search, Moon, Sun, Menu, X, Code2,
-  Workflow, BarChart3, Globe, Lock, Rocket, Database
+  GitBranch, CheckCircle2, FileCode2,
+  Boxes, Shield, Sparkles, BookOpen, Play, Star,
+  Package, ClipboardList, Moon, Sun, Menu, X, Code2,
+  Workflow, BarChart3, Rocket
 } from 'lucide-react';
 import { useTheme } from './hooks/useTheme';
 
@@ -258,33 +258,7 @@ const TESTIMONIALS = [
   },
 ];
 
-/* ─── Pricing ────────────────────────────────────────────────── */
-const PLANS = [
-  {
-    name: 'Hobby',
-    price: 'Free',
-    sub: 'Forever',
-    features: ['1 project', '5 work orders / month', 'Community support', 'Docs access'],
-    cta: 'Get started',
-    highlight: false,
-  },
-  {
-    name: 'Pro',
-    price: '$49',
-    sub: '/ seat / month',
-    features: ['Unlimited projects', 'Unlimited work orders', 'MCP agent connections', 'Priority support', 'GitHub sync', 'Validator'],
-    cta: 'Start free trial',
-    highlight: true,
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    sub: 'Contact sales',
-    features: ['Everything in Pro', 'SSO & SAML', 'Audit logs', 'Custom AI models', 'Dedicated CSM', 'SLA guarantee'],
-    cta: 'Contact sales',
-    highlight: false,
-  },
-];
+
 
 /* ─── Main Component ─────────────────────────────────────────── */
 export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs }) => {
