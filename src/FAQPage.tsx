@@ -45,7 +45,11 @@ import {
 
 const CONTENT_PAGES = ['home', 'intro', 'quickstart', 'requirements-guide', 'blueprint-guide', 'work-order-guide', 'codebase-connection', 'artifacts', 'refinery', 'foundry', 'planner', 'validator', 'organization-mgmt', 'usage-billing', 'changelog', 'roadmap', 'community'];
 
-export const FAQPage = () => {
+interface FAQPageProps {
+  onGoHome?: () => void;
+}
+
+export const FAQPage: React.FC<FAQPageProps> = ({ onGoHome }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('home');
   const [openId, setOpenId] = useState<string | null>(null);
@@ -499,7 +503,11 @@ export const FAQPage = () => {
       >
         <div className="max-w-350 mx-auto flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <motion.div style={{ scale: logoScale }} className="flex items-center gap-2.5 font-bold text-lg tracking-tight group cursor-pointer origin-left">
+            <motion.div 
+              style={{ scale: logoScale }} 
+              className="flex items-center gap-2.5 font-bold text-lg tracking-tight group cursor-pointer origin-left"
+              onClick={() => onGoHome?.()}
+            >
               <div className="relative">
                 <div className="bg-primary text-primary-foreground p-1.5 rounded-lg shadow-lg relative z-10"><Zap className="h-4 w-4 fill-current" /></div>
                 <div className="absolute inset-0 bg-primary/20 blur shadow-primary/40 rounded-lg group-hover:scale-150 transition-transform duration-500" />
