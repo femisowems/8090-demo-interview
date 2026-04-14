@@ -24,7 +24,7 @@ export const DOCS_NAV: NavGroup[] = [
     id: 'general',
     label: 'General',
     items: [
-      { id: 'intro', label: 'Introduction' },
+      { id: 'intros', label: 'Introduction' },
       { id: 'quickstart', label: 'Quickstart' },
     ]
   },
