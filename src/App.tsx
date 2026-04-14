@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FAQPage } from './FAQPage'
 import { LandingPage } from './LandingPage'
 import './index.css'
