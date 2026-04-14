@@ -37,17 +37,6 @@ export const SoftwareFactoryViz: React.FC<SoftwareFactoryVizProps> = ({
           <clipPath id="__lottie_element_2049"><path d="M0,0 L560,0 L560,418 L0,418z"></path></clipPath>
           <clipPath id="__lottie_element_2054"><path d="M0,0 L502,0 L502,40 L0,40z"></path></clipPath>
           <clipPath id="__lottie_element_2058"><path d="M0,0 L502,0 L502,40 L0,40z"></path></clipPath>
-          <g id="__lottie_element_2061">
-            <g transform="matrix(1,0,0,1,0,0)" opacity="1">
-              <path fill="rgb(0,0,0)" fillOpacity="1" d=" M502,8 C502,3.58 498.41,0 494,0 C494,0 8,0 8,0 C3.58,0 0,3.58 0,8 C0,8 0,32 0,32 C0,36.41 3.58,40 8,40 C8,40 494,40 494,40 C498.41,40 502,36.41 502,32 C502,32 502,8 502,8z"></path>
-            </g>
-          </g>
-          <mask id="__lottie_element_2061_1" maskType="alpha"><use xlinkHref="#__lottie_element_2061"></use></mask>
-          <g id="__lottie_element_2067">
-            <g transform="matrix(1,0,0,1,0,0)" opacity="1">
-              <path fill="rgb(0,0,0)" fillOpacity="1" d=" M502,8 C502,3.58 498.41,0 494,0 C494,0 8,0 8,0 C3.58,0 0,3.58 0,8 C0,8 0,32 0,32 C0,36.41 3.58,40 8,40 C8,40 494,40 494,40 C498.41,40 502,36.41 502,32 C502,32 502,8 502,8z"></path>
-            </g>
-          </g>
           <clipPath id="__lottie_element_2071"><path d="M0,0 L510,0 L510,49 L0,49z"></path></clipPath>
           <clipPath id="__lottie_element_2085"><path d="M0,0 L107.14,0 L107.14,41.24 L0,41.24z"></path></clipPath>
           <filter id="__lottie_element_2087" x="0%" y="0%" width="100%" height="100%">
@@ -61,17 +50,6 @@ export const SoftwareFactoryViz: React.FC<SoftwareFactoryVizProps> = ({
             </feMerge>
           </filter>
           <clipPath id="__lottie_element_2089"><path d="M0,0 L92,0 L92,26 L0,26z"></path></clipPath>
-          <g id="__lottie_element_2092">
-            <g transform="matrix(1,0,0,1,0,0)" opacity="1">
-              <path fill="rgb(0,0,0)" fillOpacity="1" d=" M91.35,6.31 C91.35,2.82 88.52,0 85.03,0 C85.03,0 6.31,0 6.31,0 C2.83,0 0,2.82 0,6.31 C0,6.31 0,19.13 0,19.13 C0,22.62 2.83,25.45 6.31,25.45 C6.31,25.45 85.03,25.45 85.03,25.45 C88.52,25.45 91.35,22.62 91.35,19.13 C91.35,19.13 91.35,6.31 91.35,6.31z"></path>
-            </g>
-          </g>
-          <mask id="__lottie_element_2092_1" maskType="alpha"><use xlinkHref="#__lottie_element_2092"></use></mask>
-          <g id="__lottie_element_2098">
-            <g transform="matrix(1,0,0,1,0,0)" opacity="1">
-              <path fill="rgb(0,0,0)" fillOpacity="1" d=" M91.35,6.31 C91.35,2.82 88.52,0 85.03,0 C85.03,0 6.31,0 6.31,0 C2.83,0 0,2.82 0,6.31 C0,6.31 0,19.13 0,19.13 C0,22.62 2.83,25.45 6.31,25.45 C6.31,25.45 85.03,25.45 85.03,25.45 C88.52,25.45 91.35,22.62 91.35,19.13 C91.35,19.13 91.35,6.31 91.35,6.31z"></path>
-            </g>
-          </g>
           <clipPath id="__lottie_element_2102"><path d="M0,0 L92,0 L92,26 L0,26z"></path></clipPath>
           <clipPath id="__lottie_element_5046"><path d="M0,0 L6,0 L6,487 L0,487z"></path></clipPath>
           <linearGradient id="__lottie_element_5052" spreadMethod="pad" gradientUnits="userSpaceOnUse" x1="3" y1="0" x2="3" y2="487">
