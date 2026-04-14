@@ -10,6 +10,8 @@ import {
 import { useTheme } from './hooks/useTheme';
 
 type ThemeVariant = 'emerald' | 'blue';
+type FeatureType = 'alignment' | 'transparency' | 'execution' | 'velocity';
+type DeviceType = 'laptop' | 'tablet' | 'phone';
 
 interface LandingPageProps {
   onEnterDocs: () => void;
@@ -87,9 +89,59 @@ const getTerminalLines = (variant: ThemeVariant = 'emerald') => [
   { text: '  ✓ Phase 1 complete in 2h 14m  🚀', color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400', delay: 5.9 },
 ];
 
+const getFeatureTerminalLines = (type: FeatureType, variant: ThemeVariant) => {
+  const p = variant === 'blue' ? 'text-blue-400' : 'text-emerald-400';
+  switch (type) {
+    case 'alignment':
+      return [
+        { text: '$ 8090 refinery --analyze "Payment Gateway API"', color: p, delay: 0 },
+        { text: 'Processing requirements from #spec-v2.1...', color: 'text-zinc-400', delay: 1.2 },
+        { text: '  ✓ User Authentication captured', color: p, delay: 2.2 },
+        { text: '  ✓ Vault tokenization strategy verified', color: p, delay: 2.7 },
+        { text: '  ✓ Linked to Blueprint: core-billing-engine', color: p, delay: 3.2 },
+        { text: '$ 8090 refinery --status', color: p, delay: 4.2 },
+        { text: 'Sync: 100% | Alignment: VALIDATED', color: p, delay: 5.2 },
+      ];
+    case 'transparency':
+      return [
+        { text: '$ 8090 foundry --blueprints --sync', color: p, delay: 0 },
+        { text: 'Scanning codebase architecture...', color: 'text-zinc-400', delay: 1.2 },
+        { text: '  ✓ Authentication Module (Auth0)', color: p, delay: 2.2 },
+        { text: '  ✓ Database Schema (Prisma/Postgres)', color: p, delay: 2.7 },
+        { text: '  ✓ API Layer (GraphQL/Apollo)', color: p, delay: 3.2 },
+        { text: 'Syncing 14 blueprints with 8090 artifacts...', color: 'text-zinc-400', delay: 4.2 },
+        { text: '  ✓ BLUEPRINT UP TO DATE', color: p, delay: 5.2 },
+      ];
+    case 'execution':
+      return [
+        { text: '$ 8090 planner --workload --extract', color: p, delay: 0 },
+        { text: 'Analyzing dependency graph for #phase-1...', color: 'text-zinc-400', delay: 1.2 },
+        { text: '  ✓ Sub-task: Implement generic payment adapter', color: p, delay: 2.2 },
+        { text: '  ✓ Sub-task: Add Stripe webhooks handler', color: p, delay: 2.7 },
+        { text: 'Queueing 12 Work Orders to #planner-agents...', color: 'text-zinc-400', delay: 3.7 },
+        { text: '  ✓ AGENTS READY', color: p, delay: 4.7 },
+      ];
+    case 'velocity':
+      return [
+        { text: '$ 8090 ship --stats', color: p, delay: 0 },
+        { text: 'Last 7 days performance:', color: 'text-zinc-400', delay: 1.2 },
+        { text: '  - Avg PR cycle: 2h 15m (-15%)', color: p, delay: 2.2 },
+        { text: '  - Architecture checks: 124 passed', color: p, delay: 2.7 },
+        { text: '  - Shipping Velocity: 14 deployments', color: p, delay: 3.2 },
+        { text: 'Velocity verified. Optimized for action.', color: p, delay: 4.2 },
+      ];
+  }
+};
+
 function TerminalHero({ variant = 'emerald' }: { variant?: ThemeVariant }) {
   const [visibleLines, setVisibleLines] = useState(0);
   const lines = getTerminalLines(variant);
+
+  const t = {
+    primaryIndicator: variant === 'blue' ? 'bg-blue-400' : 'bg-emerald-400',
+    shadowColor: variant === 'blue' ? 'shadow-blue-900/10' : 'shadow-emerald-900/10',
+    terminalIndicator: variant === 'blue' ? 'bg-blue-500/70' : 'bg-emerald-500/70',
+  };
 
   useEffect(() => {
     const timeouts: ReturnType<typeof setTimeout>[] = [];
@@ -100,12 +152,12 @@ function TerminalHero({ variant = 'emerald' }: { variant?: ThemeVariant }) {
   }, [variant]);
 
   return (
-    <div className={`relative rounded-2xl overflow-hidden border border-border/50 dark:border-white/10 bg-[#09090b] shadow-2xl ${variant === 'blue' ? 'shadow-blue-900/10' : 'shadow-emerald-900/10'} dark:shadow-black/60 backdrop-blur-sm`}>
+    <div className={`relative rounded-2xl overflow-hidden border border-border/50 dark:border-white/10 bg-[#09090b] shadow-2xl ${t.shadowColor} dark:shadow-black/60 backdrop-blur-sm`}>
       {/* Window chrome */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-800 bg-zinc-900">
         <div className="w-3 h-3 rounded-full bg-red-500/70" />
         <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-        <div className={`w-3 h-3 rounded-full ${variant === 'blue' ? 'bg-blue-500/70' : 'bg-emerald-500/70'}`} />
+        <div className={`w-3 h-3 rounded-full ${t.terminalIndicator}`} />
         <span className="ml-3 text-[10px] font-mono font-bold tracking-tight text-zinc-500 uppercase">software-factory — zsh</span>
       </div>
       {/* Terminal body */}
@@ -116,9 +168,109 @@ function TerminalHero({ variant = 'emerald' }: { variant?: ThemeVariant }) {
           </div>
         ))}
         {visibleLines < lines.length && (
-          <span className={`inline-block w-2 h-4 ${variant === 'blue' ? 'bg-blue-400' : 'bg-emerald-400'} animate-pulse ml-0.5 align-middle`} />
+          <span className={`inline-block w-2 h-4 ${t.primaryIndicator} animate-pulse ml-0.5 align-middle`} />
         )}
       </div>
+    </div>
+  );
+}
+
+function FeatureTerminal({ type, variant = 'emerald', scale = 1 }: { type: FeatureType; variant?: ThemeVariant, scale?: number }) {
+  const [visibleLines, setVisibleLines] = useState(0);
+  const lines = getFeatureTerminalLines(type, variant);
+  
+  const t = {
+    primaryIndicator: variant === 'blue' ? 'bg-blue-400' : 'bg-emerald-400',
+    shadowColor: variant === 'blue' ? 'shadow-blue-900/10' : 'shadow-emerald-900/10',
+    terminalIndicator: variant === 'blue' ? 'bg-blue-500/70' : 'bg-emerald-500/70',
+  };
+
+  useEffect(() => {
+    const timeouts: ReturnType<typeof setTimeout>[] = [];
+    lines.forEach((line, i) => {
+      timeouts.push(setTimeout(() => setVisibleLines(i + 1), line.delay * 1000 + 400));
+    });
+    return () => timeouts.forEach(clearTimeout);
+  }, [variant, type]);
+
+  return (
+    <div className={`relative w-full rounded-2xl overflow-hidden border border-border/50 dark:border-white/10 bg-[#09090b] shadow-2xl ${t.shadowColor} dark:shadow-black/60 backdrop-blur-sm group/term mx-auto`}
+      style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
+      {/* Window chrome */}
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-800 bg-zinc-900/50">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+          <div className={`w-2.5 h-2.5 rounded-full ${t.terminalIndicator}`} />
+        </div>
+        <span className="ml-3 text-[9px] font-mono font-bold tracking-wider text-zinc-500 uppercase opacity-50">8090 — {type} — zsh</span>
+      </div>
+      {/* Terminal body */}
+      <div className="p-6 font-mono text-[13px] leading-relaxed min-h-[200px] bg-[#09090b]">
+        {lines.slice(0, visibleLines).map((line, i) => (
+          <div key={i} className={`${line.color} mb-1`}>
+            {line.text}
+          </div>
+        ))}
+        {visibleLines < lines.length && (
+          <span className={`inline-block w-2 h-4 ${t.primaryIndicator} animate-pulse ml-0.5 align-middle`} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function DeviceMockup({ type, children, variant }: { type: DeviceType | 'laptop' | 'tablet' | 'phone'; children: React.ReactNode; variant: ThemeVariant }) {
+  const t = {
+    glow: variant === 'blue' ? 'from-blue-500/10' : 'from-emerald-500/10',
+    border: variant === 'blue' ? 'border-blue-500/20' : 'border-emerald-500/20',
+  };
+
+  if (type === 'laptop') {
+    return (
+      <div className="relative group/laptop w-full max-w-4xl mx-auto">
+        <div className={`absolute -inset-4 bg-gradient-to-b ${t.glow} to-transparent blur-3xl opacity-0 group-hover/laptop:opacity-100 transition-opacity duration-700`} />
+        <div className="relative bg-[#0c0c0e] rounded-t-2xl border-[6px] border-[#1a1a1e] shadow-2xl overflow-hidden aspect-[16/10] flex flex-col">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#1a1a1e] rounded-b-xl z-20" />
+          <div className="flex-1 overflow-auto p-4 lg:p-8 flex items-center justify-center">
+            {children}
+          </div>
+        </div>
+        <div className="relative h-2.5 w-full bg-[#1a1a1e] rounded-b-xl shadow-lg border-t border-white/5" />
+        <div className="relative mx-auto w-1/4 h-1.5 bg-[#252529] rounded-b-lg shadow-inner" />
+      </div>
+    );
+  }
+
+  if (type === 'tablet') {
+    return (
+      <div className="relative group/tablet w-full max-w-2xl mx-auto">
+        <div className={`absolute -inset-4 bg-gradient-to-b ${t.glow} to-transparent blur-3xl opacity-0 group-hover/tablet:opacity-100 transition-opacity duration-700`} />
+        <div className="relative bg-[#0c0c0e] rounded-[2.5rem] border-[12px] border-[#1a1a1e] shadow-2xl overflow-hidden aspect-[4/3] flex flex-col">
+          <div className="flex-1 overflow-auto p-4 lg:p-10 flex items-center justify-center">
+            {children}
+          </div>
+        </div>
+        <div className="absolute top-12 -right-3.5 w-1.5 h-12 bg-[#1a1a1e] rounded-l-md" />
+        <div className="absolute top-28 -right-3.5 w-1.5 h-12 bg-[#1a1a1e] rounded-l-md" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative group/phone w-[280px] mx-auto">
+      <div className={`absolute -inset-4 bg-gradient-to-b ${t.glow} to-transparent blur-3xl opacity-0 group-hover/phone:opacity-100 transition-opacity duration-700`} />
+      <div className="relative bg-[#0c0c0e] rounded-[3rem] border-[10px] border-[#1a1a1e] shadow-2xl overflow-hidden aspect-[9/19.5] flex flex-col">
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-black rounded-full z-20 flex items-center justify-center gap-1.5">
+          <div className="w-1.5 h-1.5 rounded-full bg-blue-500/20" />
+        </div>
+        <div className="flex-1 overflow-auto p-4 pt-12 flex items-start justify-center">
+          {children}
+        </div>
+      </div>
+      <div className="absolute top-24 -left-3.5 w-1.5 h-8 bg-[#1a1a1e] rounded-r-md" />
+      <div className="absolute top-36 -left-3.5 w-1.5 h-12 bg-[#1a1a1e] rounded-r-md" />
+      <div className="absolute top-32 -right-3.5 w-1.5 h-16 bg-[#1a1a1e] rounded-l-md" />
     </div>
   );
 }
@@ -191,15 +343,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
   const t = {
     primary: variant === 'blue' ? 'blue-500' : 'emerald-500',
     primaryHover: variant === 'blue' ? 'blue-600' : 'emerald-600',
+    primary400: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400',
+    primaryIndicator: variant === 'blue' ? 'bg-blue-400' : 'bg-emerald-400',
     primarySoft: variant === 'blue' ? 'blue-500/10' : 'emerald-500/10',
     primarySoftBorder: variant === 'blue' ? 'border-blue-500/20' : 'border-emerald-500/20',
+    primaryBorder30: variant === 'blue' ? 'border-blue-500/30' : 'border-emerald-500/30',
+    primaryBg5: variant === 'blue' ? 'bg-blue-500/5' : 'bg-emerald-500/5',
     textPrimary: variant === 'blue' ? 'text-blue-500' : 'text-emerald-500',
     textPrimaryDark: variant === 'blue' ? 'text-blue-600 dark:text-blue-400' : 'text-emerald-600 dark:text-emerald-400',
     glow: variant === 'blue' ? 'bg-blue-500/10 dark:bg-blue-500/8' : 'bg-emerald-500/10 dark:bg-emerald-500/8',
     ring: variant === 'blue' ? 'focus:ring-blue-500/50' : 'focus:ring-emerald-500/50',
     selection: variant === 'blue' ? 'selection:bg-blue-500/30' : 'selection:bg-emerald-500/30',
     shadow: variant === 'blue' ? 'shadow-blue-500/20' : 'shadow-emerald-500/20',
+    shadowColor: variant === 'blue' ? 'shadow-blue-900/10' : 'shadow-emerald-900/10',
     shadowLg: variant === 'blue' ? 'shadow-blue-500/25 target:shadow-blue-500/40' : 'shadow-emerald-500/25 hover:shadow-emerald-500/40',
+    terminalIndicator: variant === 'blue' ? 'bg-blue-500/70' : 'bg-emerald-500/70',
+    accentGradient: variant === 'blue' ? 'from-blue-500/10' : 'from-emerald-500/10',
+    accentFrom: variant === 'blue' ? 'from-blue-500/20' : 'from-emerald-500/20',
   };
 
   const { scrollY } = useScroll();
@@ -218,8 +378,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
       icon: FileCode2,
       title: 'Refinery',
       desc: 'Collaboratively define requirements, capture user logic, and architectural PRDs to align every stakeholder.',
-      accent: variant === 'blue' ? 'from-blue-500/20 to-blue-500/0' : 'from-emerald-500/20 to-emerald-500/0',
-      iconBg: variant === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-emerald-500/10 text-emerald-400',
+      accent: t.accentFrom + ' to-transparent',
+      iconBg: t.primarySoft + ' ' + t.primary400,
     },
     {
       icon: Boxes,
@@ -264,8 +424,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
       icon: FileCode2,
       title: 'Write Requirements',
       desc: 'Use the AI Refinery to produce product overview docs, feature specs, and acceptance criteria — in minutes.',
-      color: variant === 'blue' ? 'text-blue-400' : 'text-emerald-400',
-      border: variant === 'blue' ? 'border-blue-500/20' : 'border-emerald-500/20',
+      color: t.primary400,
+      border: t.primarySoftBorder,
     },
     {
       num: '02',
@@ -334,8 +494,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
 
           {/* Right actions */}
           <div className="flex items-center gap-4">
-            <div className={`hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full ${variant === 'blue' ? 'bg-blue-500/10 border-blue-500/20 text-blue-500' : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'} text-[10px] font-bold shadow-sm`}>
-              <div className={`w-1.5 h-1.5 rounded-full ${variant === 'blue' ? 'bg-blue-500' : 'bg-emerald-500'} animate-pulse shadow-[0_0_8px_rgba(20,184,166,0.3)]`} />
+            <div className={`hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full ${t.primarySoft} ${t.primarySoftBorder} ${t.textPrimary} text-[10px] font-bold shadow-sm`}>
+              <div className={`w-1.5 h-1.5 rounded-full bg-${t.primary} animate-pulse shadow-[0_0_8px_rgba(20,184,166,0.3)]`} />
               OPERATIONAL
             </div>
             
@@ -417,7 +577,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
             transition={{ duration: 0.5 }}
             className="flex justify-center mb-10"
           >
-            <button className={`flex items-center gap-2 px-4 py-1.5 rounded-full border ${variant === 'blue' ? 'border-blue-500/30 bg-blue-500/5 text-blue-600 dark:text-blue-400 hover:border-blue-500/50' : 'border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 hover:border-emerald-500/50'} text-xs font-bold transition-all group backdrop-blur-sm shadow-sm`}>
+            <button className={`flex items-center gap-2 px-4 py-1.5 rounded-full border ${t.primaryBorder30} ${t.primaryBg5} ${t.textPrimaryDark} hover:border-${t.primaryHover}/50 text-xs font-bold transition-all group backdrop-blur-sm shadow-sm`}>
               <Sparkles className="h-3 w-3" />
               Introducing Software Factory v2 — built for AI-native teams
               <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
@@ -455,7 +615,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
               >
                 <button
                   onClick={onEnterDocs}
-                  className={`inline-flex items-center gap-2 px-6 py-3.5 bg-${t.primary} hover:bg-${variant === 'blue' ? 'blue-400' : 'emerald-400'} text-black font-bold rounded-xl transition-all ${t.shadowLg} hover:-translate-y-0.5 active:translate-y-0`}
+                  className={`inline-flex items-center gap-2 px-6 py-3.5 bg-${t.primary} hover:bg-${t.primaryHover} text-black font-bold rounded-xl transition-all ${t.shadowLg} hover:-translate-y-0.5 active:translate-y-0`}
                 >
                   Start building <ArrowRight className="h-4 w-4" />
                 </button>
@@ -532,7 +692,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
                   <motion.div
                     whileHover={{ y: -4, scale: 1.01 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className={`group relative p-6 rounded-2xl border border-border/50 bg-card hover:border-${variant === 'blue' ? 'blue-500/30' : 'emerald-500/30'} overflow-hidden cursor-pointer transition-colors shadow-sm hover:shadow-xl hover:shadow-${variant === 'blue' ? 'blue-500/5' : 'emerald-500/5'} h-full`}
+                    className={`group relative p-6 rounded-2xl border border-border/50 bg-card hover:border-${t.primaryHover}/30 overflow-hidden cursor-pointer transition-colors shadow-sm hover:shadow-xl hover:shadow-${t.primary}/5 h-full`}
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br ${feat.accent} opacity-0 group-hover:opacity-[0.03] dark:group-hover:opacity-10 shadow-inner transition-opacity duration-500`} />
                     <div className="relative space-y-4 flex flex-col h-full">
@@ -565,7 +725,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
 
           <div className="relative">
             {/* Connector line (desktop) */}
-            <div className={`absolute top-10 left-[calc(12.5%+20px)] right-[calc(12.5%+20px)] h-px bg-gradient-to-r ${variant === 'blue' ? 'from-blue-500/10' : 'from-emerald-500/10'} via-violet-500/10 to-amber-500/10 hidden lg:block`} />
+            <div className={`absolute top-10 left-[calc(12.5%+20px)] right-[calc(12.5%+20px)] h-px bg-gradient-to-r ${t.accentGradient} via-violet-500/10 to-amber-500/10 hidden lg:block`} />
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {STEPS.map((step, i) => {
@@ -593,7 +753,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
           <FadeUp className="flex justify-center">
             <button
               onClick={onEnterDocs}
-              className={`inline-flex items-center gap-2 px-6 py-3 bg-${t.primary} hover:bg-${t.primaryHover} text-black font-bold rounded-xl transition-all shadow-lg shadow-${variant === 'blue' ? 'blue-500/20' : 'emerald-500/20'} hover:-translate-y-0.5 active:scale-95`}
+              className={`inline-flex items-center gap-2 px-6 py-3 bg-${t.primary} hover:bg-${t.primaryHover} text-black font-bold rounded-xl transition-all shadow-lg ${t.shadow} hover:-translate-y-0.5 active:scale-95`}
             >
               Read the docs <BookOpen className="h-4 w-4" />
             </button>
@@ -627,9 +787,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
             </ul>
           </FadeUp>
           <FadeUp delay={0.15}>
-            <div className="aspect-video rounded-3xl bg-muted/30 border border-border overflow-hidden flex items-center justify-center italic text-muted-foreground/30">
-              [Image: Build the right thing mockup]
-            </div>
+            <DeviceMockup type="laptop" variant={variant}>
+              <FeatureTerminal type="alignment" variant={variant} />
+            </DeviceMockup>
           </FadeUp>
         </div>
       </section>
@@ -638,9 +798,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
       <section className="py-24 px-6 overflow-hidden bg-muted/5">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <FadeUp delay={0.15} className="order-2 lg:order-1">
-            <div className="aspect-video rounded-3xl bg-muted/30 border border-border overflow-hidden flex items-center justify-center italic text-muted-foreground/30">
-              [Image: Shift critical making left mockup]
-            </div>
+            <DeviceMockup type="tablet" variant={variant}>
+              <FeatureTerminal type="transparency" variant={variant} scale={0.9} />
+            </DeviceMockup>
           </FadeUp>
           <FadeUp className="space-y-8 order-1 lg:order-2">
             <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Transparency</p>
@@ -693,9 +853,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
             </ul>
           </FadeUp>
           <FadeUp delay={0.15}>
-            <div className="aspect-video rounded-3xl bg-muted/30 border border-border overflow-hidden flex items-center justify-center italic text-muted-foreground/30">
-              [Image: Execution mockup]
-            </div>
+            <DeviceMockup type="phone" variant={variant}>
+              <FeatureTerminal type="execution" variant={variant} scale={0.8} />
+            </DeviceMockup>
           </FadeUp>
         </div>
       </section>
@@ -704,9 +864,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
       <section className="py-24 px-6 overflow-hidden bg-muted/5">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <FadeUp delay={0.15} className="order-2 lg:order-1">
-            <div className="aspect-video rounded-3xl bg-muted/30 border border-border overflow-hidden flex items-center justify-center italic text-muted-foreground/30">
-              [Image: Feedback loop mockup]
-            </div>
+            <DeviceMockup type="laptop" variant={variant}>
+              <FeatureTerminal type="velocity" variant={variant} />
+            </DeviceMockup>
           </FadeUp>
           <FadeUp className="space-y-8 order-1 lg:order-2">
             <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Velocity</p>
@@ -938,7 +1098,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
 
       {/* ═══ FINAL CTA ═══════════════════════════════════════════ */}
       <section className="py-32 px-6 relative overflow-hidden">
-        <div className={`absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t ${variant === 'blue' ? 'from-blue-500/5' : 'from-emerald-500/5'} to-transparent pointer-events-none`} />
+        <div className={`absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t ${t.accentGradient} to-transparent pointer-events-none`} />
         <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] ${t.glow} blur-[100px] rounded-full pointer-events-none`} />
         <FadeUp className="relative text-center space-y-8 max-w-3xl mx-auto">
           <h2 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] text-foreground">
@@ -1028,7 +1188,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
           <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40">
             <p>© {new Date().getFullYear()} 8090 Solutions Inc. — All rights reserved.</p>
             <div className="flex items-center gap-2">
-              <div className={`w-1.5 h-1.5 rounded-full ${variant === 'blue' ? 'bg-blue-500' : 'bg-emerald-500'} animate-pulse shadow-[0_0_8px_rgba(20,184,166,0.3)]`} />
+              <div className={`w-1.5 h-1.5 rounded-full bg-${t.primary} animate-pulse shadow-[0_0_8px_rgba(20,184,166,0.3)]`} />
               All systems operational · v2.4.1
             </div>
           </div>
