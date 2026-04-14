@@ -605,7 +605,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
       <section className="py-24 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <FadeUp className="space-y-8">
-            <p className="text-xs font-bold tracking-[0.25em] uppercase text-emerald-500">Alignment</p>
+            <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Alignment</p>
             <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-foreground">
               Build the right thing.
             </h2>
@@ -643,7 +643,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
             </div>
           </FadeUp>
           <FadeUp className="space-y-8 order-1 lg:order-2">
-            <p className="text-xs font-bold tracking-[0.25em] uppercase text-emerald-500">Transparency</p>
+            <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Transparency</p>
             <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-foreground">
               Shift critical making left.
             </h2>
@@ -671,7 +671,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
       <section className="py-24 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <FadeUp className="space-y-8">
-            <p className="text-xs font-bold tracking-[0.25em] uppercase text-emerald-500">Execution</p>
+            <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Execution</p>
             <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-foreground">
               From decisions to directed execution.
             </h2>
@@ -709,7 +709,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
             </div>
           </FadeUp>
           <FadeUp className="space-y-8 order-1 lg:order-2">
-            <p className="text-xs font-bold tracking-[0.25em] uppercase text-emerald-500">Velocity</p>
+            <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Velocity</p>
             <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-foreground">
               Turn feedback into action.
             </h2>
@@ -737,7 +737,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterDocs, variant =
       <section className="py-24 px-6 bg-muted/20 border-t border-b border-border/50">
         <div className="max-w-7xl mx-auto space-y-14">
           <FadeUp className="text-center space-y-4">
-            <p className="text-xs font-bold tracking-[0.25em] uppercase text-emerald-500">Testimonials</p>
+            <p className={`text-xs font-bold tracking-[0.25em] uppercase ${t.textPrimary}`}>Testimonials</p>
             <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-foreground">Teams who got their time back.</h2>
           </FadeUp>
 
